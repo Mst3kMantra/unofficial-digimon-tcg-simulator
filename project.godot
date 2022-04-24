@@ -1,0 +1,162 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=4
+
+_global_script_classes=[ {
+"base": "TextureRect",
+"class": "Card",
+"language": "GDScript",
+"path": "res://Assets/Scripts/Card.gd"
+}, {
+"base": "Node",
+"class": "CardDatabase",
+"language": "GDScript",
+"path": "res://Assets/Scripts/Card_DB.gd"
+}, {
+"base": "Node",
+"class": "Game",
+"language": "GDScript",
+"path": "res://Assets/Scripts/Game.gd"
+}, {
+"base": "Reference",
+"class": "NakamaAPI",
+"language": "GDScript",
+"path": "res://addons/com.heroiclabs.nakama/api/NakamaAPI.gd"
+}, {
+"base": "Reference",
+"class": "NakamaAsyncResult",
+"language": "GDScript",
+"path": "res://addons/com.heroiclabs.nakama/utils/NakamaAsyncResult.gd"
+}, {
+"base": "Reference",
+"class": "NakamaClient",
+"language": "GDScript",
+"path": "res://addons/com.heroiclabs.nakama/client/NakamaClient.gd"
+}, {
+"base": "Reference",
+"class": "NakamaException",
+"language": "GDScript",
+"path": "res://addons/com.heroiclabs.nakama/utils/NakamaException.gd"
+}, {
+"base": "Node",
+"class": "NakamaHTTPAdapter",
+"language": "GDScript",
+"path": "res://addons/com.heroiclabs.nakama/client/NakamaHTTPAdapter.gd"
+}, {
+"base": "Reference",
+"class": "NakamaLogger",
+"language": "GDScript",
+"path": "res://addons/com.heroiclabs.nakama/utils/NakamaLogger.gd"
+}, {
+"base": "NakamaAsyncResult",
+"class": "NakamaRTAPI",
+"language": "GDScript",
+"path": "res://addons/com.heroiclabs.nakama/api/NakamaRTAPI.gd"
+}, {
+"base": "Reference",
+"class": "NakamaRTMessage",
+"language": "GDScript",
+"path": "res://addons/com.heroiclabs.nakama/api/NakamaRTMessage.gd"
+}, {
+"base": "Reference",
+"class": "NakamaSerializer",
+"language": "GDScript",
+"path": "res://addons/com.heroiclabs.nakama/utils/NakamaSerializer.gd"
+}, {
+"base": "NakamaAsyncResult",
+"class": "NakamaSession",
+"language": "GDScript",
+"path": "res://addons/com.heroiclabs.nakama/api/NakamaSession.gd"
+}, {
+"base": "Reference",
+"class": "NakamaSocket",
+"language": "GDScript",
+"path": "res://addons/com.heroiclabs.nakama/socket/NakamaSocket.gd"
+}, {
+"base": "Node",
+"class": "NakamaSocketAdapter",
+"language": "GDScript",
+"path": "res://addons/com.heroiclabs.nakama/socket/NakamaSocketAdapter.gd"
+}, {
+"base": "Reference",
+"class": "NakamaStorageObjectId",
+"language": "GDScript",
+"path": "res://addons/com.heroiclabs.nakama/api/NakamaStorageObjectId.gd"
+}, {
+"base": "Reference",
+"class": "NakamaWriteStorageObject",
+"language": "GDScript",
+"path": "res://addons/com.heroiclabs.nakama/api/NakamaWriteStorageObject.gd"
+}, {
+"base": "Node",
+"class": "PhaseManager",
+"language": "GDScript",
+"path": "res://Assets/Scripts/Phases.gd"
+}, {
+"base": "CanvasLayer",
+"class": "UILayer",
+"language": "GDScript",
+"path": "res://Assets/Main/UILayer.gd"
+} ]
+_global_script_class_icons={
+"Card": "",
+"CardDatabase": "",
+"Game": "",
+"NakamaAPI": "",
+"NakamaAsyncResult": "",
+"NakamaClient": "",
+"NakamaException": "",
+"NakamaHTTPAdapter": "",
+"NakamaLogger": "",
+"NakamaRTAPI": "",
+"NakamaRTMessage": "",
+"NakamaSerializer": "",
+"NakamaSession": "",
+"NakamaSocket": "",
+"NakamaSocketAdapter": "",
+"NakamaStorageObjectId": "",
+"NakamaWriteStorageObject": "",
+"PhaseManager": "",
+"UILayer": ""
+}
+
+[application]
+
+config/name="Digimon TCG"
+run/main_scene="res://Assets/Scenes/Main.tscn"
+config/icon="res://icon.png"
+
+[autoload]
+
+Nakama="*res://addons/com.heroiclabs.nakama/Nakama.gd"
+OnlineMatch="*res://addons/nakama-webrtc/OnlineMatch.gd"
+Online="*res://Assets/Autoload/Online.gd"
+GameState="*res://Assets/Autoload/GameState.gd"
+Build="*res://Assets/Autoload/Build.gd"
+
+[display]
+
+window/size/width=1920
+window/size/height=1080
+window/size/test_width=800
+window/size/test_height=600
+window/stretch/mode="2d"
+window/stretch/aspect="expand"
+
+[gdnative]
+
+singletons=[ "res://webrtc/webrtc.gdnlib", "res://webrtc_debug/webrtc_debug.gdnlib" ]
+
+[physics]
+
+common/enable_pause_aware_picking=true
+
+[rendering]
+
+environment/default_environment="res://default_env.tres"
