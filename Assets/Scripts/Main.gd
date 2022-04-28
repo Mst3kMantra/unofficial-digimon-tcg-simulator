@@ -10,6 +10,7 @@ var players_ready := {}
 var players_score := {}
 
 func _ready() -> void:
+	randomize()
 # warning-ignore:return_value_discarded
 	OnlineMatch.connect("error", self, "_on_OnlineMatch_error")
 # warning-ignore:return_value_discarded
@@ -50,18 +51,21 @@ func _on_Main_Menu_play_online() -> void:
 	
 	ui_layer.show_screen("ConnectionScreen")
 
+func _on_MainMenu_save_load():
+	ui_layer.show_screen("DeckImporter")
+
 func _on_UILayer_change_screen(name: String, _screen) -> void:
-	if name == 'TitleScreen':
+	if name == 'MainMenu':
 		ui_layer.hide_back_button()
 	else:
 		ui_layer.show_back_button()
 
 func _on_UILayer_back_button() -> void:
 	ui_layer.hide_message()
-	if ui_layer.current_screen_name in ['ConnectionScreen', 'MatchScreen']:
-		ui_layer.show_screen("TitleScreen")
+	if ui_layer.current_screen_name in ['ConnectionScreen', 'MatchScreen', 'DeckImporter']:
+		ui_layer.show_screen("MainMenu")
 	elif not GameState.online_play:
-		ui_layer.show_screen("TitleScreen")
+		ui_layer.show_screen("MainMenu")
 	else:
 		ui_layer.show_screen("MatchScreen")
 
@@ -172,3 +176,6 @@ remotesync func show_winner(name: String, session_id: String = '', score: int = 
 			ui_layer.show_screen("ReadyScreen")
 	else:
 		restart_game()
+
+
+

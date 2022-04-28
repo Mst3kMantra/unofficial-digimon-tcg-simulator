@@ -4,12 +4,18 @@ onready var matchmaker_player_count_control := $PanelContainer/VBoxContainer/Mat
 onready var join_match_id_control := $PanelContainer/VBoxContainer/JoinPanel/LineEdit
 
 func _ready() -> void:
+# warning-ignore:return_value_discarded
 	$PanelContainer/VBoxContainer/MatchPanel/MatchButton.connect("pressed", self, "_on_match_button_pressed", [OnlineMatch.MatchMode.MATCHMAKER])
+# warning-ignore:return_value_discarded
 	$PanelContainer/VBoxContainer/CreatePanel/CreateButton.connect("pressed", self, "_on_match_button_pressed", [OnlineMatch.MatchMode.CREATE])
+# warning-ignore:return_value_discarded
 	$PanelContainer/VBoxContainer/JoinPanel/JoinButton.connect("pressed", self, "_on_match_button_pressed", [OnlineMatch.MatchMode.JOIN])
 	
+# warning-ignore:return_value_discarded
 	OnlineMatch.connect("matchmaker_matched", self, "_on_OnlineMatch_matchmaker_matched")
+# warning-ignore:return_value_discarded
 	OnlineMatch.connect("match_created", self, "_on_OnlineMatch_created")
+# warning-ignore:return_value_discarded
 	OnlineMatch.connect("match_joined", self, "_on_OnlineMatch_joined")
 
 func _show_screen(_info: Dictionary = {}) -> void:

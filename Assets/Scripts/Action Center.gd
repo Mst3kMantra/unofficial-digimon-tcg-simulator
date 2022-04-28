@@ -3,10 +3,9 @@ extends Node
 onready var card_view = get_node("Zones/Card View")
 onready var phases = get_parent().get_node("Phase Manager")
 
-
-
 signal drawn_card
 signal unsuspended_cards
+signal hatched_egg
 
 enum Zones {
 	HAND = 0,
@@ -22,8 +21,6 @@ enum Zones {
 func unsuspend_all():
 	print("unsuspended")
 	emit_signal("unsuspended_cards")
-	rpc("_unsuspend_all")
-	
 
 func draw_card():
 	var drawn_card = card_view.deck_cards.back()
@@ -35,19 +32,17 @@ func draw_card():
 func _ready():
 	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
+func hatch_egg():
+	card_view.breeding_cards.append(card_view.baby_deck.pop_back())
+	emit_signal("hatched_egg")
 
 func _on_Phase_Manager_phase_change():
 	match phases.phase:
 		phases.UNSUSPEND_PHASE:
 			unsuspend_all()
+		phases.BREEDING_PHASE:
+			if card_view.breeding_cards.empty():
+				hatch_egg()
 		phases.DRAW_PHASE:
 			draw_card()
 			print("drawing")
-
-remote func _unsuspend_all():
-	print("unsuspended")

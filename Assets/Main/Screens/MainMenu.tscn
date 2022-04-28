@@ -15,8 +15,8 @@ font_data = ExtResource( 1 )
 script = ExtResource( 2 )
 
 [node name="ColorRect" type="ColorRect" parent="."]
-margin_right = 1917.0
-margin_bottom = 1081.0
+margin_right = 1920.0
+margin_bottom = 1080.0
 color = Color( 0.305882, 0.631373, 0.945098, 1 )
 
 [node name="Title" type="Label" parent="."]
@@ -45,21 +45,21 @@ margin_bottom = 78.0
 custom_fonts/font = SubResource( 1 )
 text = "Multiplayer"
 
-[node name="OptionsButton" type="Button" parent="VBoxContainer"]
+[node name="Saveloadbutton" type="Button" parent="VBoxContainer"]
 margin_top = 178.0
 margin_right = 595.0
 margin_bottom = 256.0
 custom_fonts/font = SubResource( 1 )
 text = "Save/Load Deck"
 
-[node name="QuitButton" type="Button" parent="VBoxContainer"]
+[node name="optionsbutton" type="Button" parent="VBoxContainer"]
 margin_top = 356.0
 margin_right = 595.0
 margin_bottom = 434.0
 custom_fonts/font = SubResource( 1 )
 text = "Options"
 
-[node name="Button" type="Button" parent="VBoxContainer"]
+[node name="quitbutton" type="Button" parent="VBoxContainer"]
 margin_top = 534.0
 margin_right = 595.0
 margin_bottom = 612.0
@@ -67,3 +67,4 @@ custom_fonts/font = SubResource( 2 )
 text = "Quit"
 
 [connection signal="pressed" from="VBoxContainer/MultiButton" to="." method="_on_MultiButton_pressed"]
+[connection signal="pressed" from="VBoxContainer/Saveloadbutton" to="." method="_on_Saveloadbutton_pressed"]

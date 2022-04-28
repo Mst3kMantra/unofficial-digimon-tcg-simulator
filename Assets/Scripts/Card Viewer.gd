@@ -2,22 +2,39 @@ extends Node2D
 
 
 
-var hand_cards = []
 onready var deck_loader = get_parent().get_node("Deck Loader")
 onready var deck_zone = $Deck
+#card zones
+var hand_cards = []
+var enemy_hand = []
 var deck_cards = []
+var enemy_cards = []
 var trash_cards = []
+var enemy_trash = []
 var baby_deck = []
+var enemy_baby = []
 var breeding_cards = []
+var enemy_breeding = []
 var security_cards = []
+var enemy_security = []
+#card numbers
+var deck_numbers = []
+var enemy_deck_numbers = []
+var baby_numbers = []
+var enemy_baby_numbers = []
+var security_numbers = []
+var enemy_security_numbers = []
+var breed_numbers = []
+var enemy_breeding_numbers = []
+#card metadata
 var card_art_string_format = "res://Resources/Sprites/%s.jpg"
 var start_pos = []
 var start_pos_y = []
 var shifted_pos_left = []
 var shifted_pos_right = []
 var card_check
-
 signal card_changed
+signal setup_done
 
 
 onready var center_hand = get_viewport_rect().size/2 + Vector2(card_offset.x/1.5 + 1200,0) + Vector2(0,card_offset.y * 1.5)
@@ -28,7 +45,6 @@ var card_margin = card_offset.x/1.1
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	randomize()
 # warning-ignore:return_value_discarded
 	self.connect("card_changed", self, "_on_card_change")
 
@@ -100,16 +116,60 @@ func _physics_process(delta):
 
 
 
-func _on_Deck_Loader_deck_one_loaded():
-	deck_cards = deck_loader.deck
-	var i = 0
-	while i < (deck_cards.size()):
-		var type = deck_cards[i].type
-		if type == "Digi-Egg":
-			baby_deck.append(deck_cards.pop_at(i))
-			i = 0
-		i += 1
-	deck_cards.shuffle()
+func _on_Deck_Loader_deck_loaded():
+	if get_tree().get_network_unique_id() == 1:
+		deck_cards = deck_loader.deck
+		enemy_cards = deck_loader.enemy_deck
+		var j = 0
+		while j < (enemy_cards.size()):
+			var type = enemy_cards[j].type
+			if type == "Digi-Egg":
+				enemy_baby.append(enemy_cards.pop_at(j))
+				j = 0
+			j += 1
+		var i = 0
+		while i < (deck_cards.size()):
+			var type = deck_cards[i].type
+			if type == "Digi-Egg":
+				baby_deck.append(deck_cards.pop_at(i))
+				i = 0
+			i += 1
+		deck_cards.shuffle()
+		enemy_cards.shuffle()
+		for k in (5):
+			security_cards.append(deck_cards.pop_back())
+			enemy_security.append(enemy_cards.pop_back())
+		security_numbers = get_card_numbers(security_cards)
+		enemy_security_numbers = get_card_numbers(enemy_security)
+		deck_cards.shuffle()
+		deck_numbers = get_card_numbers(deck_cards)
+		enemy_cards.shuffle()
+		enemy_deck_numbers = get_card_numbers(enemy_cards)
+		baby_deck.shuffle()
+		baby_numbers = get_card_numbers(baby_deck)
+		enemy_baby.shuffle()
+		enemy_baby_numbers = get_card_numbers(enemy_baby)
+		rpc_id(2, "_send_card_numbers", deck_numbers, enemy_deck_numbers, baby_numbers, enemy_baby_numbers, security_numbers, enemy_security_numbers)
+
+
+remote func _send_card_numbers(sent_deck_numbers, sent_enemy_deck_numbers, sent_baby_numbers, sent_enemy_baby_numbers, sent_security_numbers, sent_enemy_security_numbers):
+	data_recieved(sent_deck_numbers, sent_enemy_deck_numbers, sent_baby_numbers, sent_enemy_baby_numbers, sent_security_numbers, sent_enemy_security_numbers)
+func data_recieved(sent_deck_numbers, sent_enemy_deck_numbers, sent_baby_numbers, sent_enemy_baby_numbers, sent_security_numbers, sent_enemy_security_numbers):
+	deck_numbers = sent_deck_numbers
+	enemy_deck_numbers = sent_enemy_deck_numbers
+	baby_numbers = sent_baby_numbers
+	enemy_baby_numbers = sent_enemy_baby_numbers
+	security_numbers = sent_security_numbers
+	enemy_security_numbers = sent_enemy_security_numbers
+
+#todo find index numbers of deck_cards and enemy_cards to each array then use pop_at() to move those cards into the
+#correct order of the master shuffle
+
+func get_card_numbers(cards):
+	var card_numbers = []
+	for f in cards:
+		card_numbers.append(f.card_number)
+	return card_numbers
 
 func _on_card_change():
 	var count = hand_cards.size()

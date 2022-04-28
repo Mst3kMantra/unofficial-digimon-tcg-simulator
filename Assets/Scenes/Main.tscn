@@ -1,9 +1,9 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=21 format=2]
 
 [ext_resource path="res://Resources/Sprites/card_back.jpg" type="Texture" id=1]
 [ext_resource path="res://Assets/Scripts/Game.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Scripts/Phases.gd" type="Script" id=3]
-[ext_resource path="res://Assets/Scripts/Deck_one.gd" type="Script" id=4]
+[ext_resource path="res://Assets/Scripts/deck_load.gd" type="Script" id=4]
 [ext_resource path="res://Assets/Scripts/End Turn Button.gd" type="Script" id=5]
 [ext_resource path="res://Resources/Sprites/s-l1600.jpg" type="Texture" id=6]
 [ext_resource path="res://Assets/Scripts/CardFactory.gd" type="Script" id=7]
@@ -18,6 +18,7 @@
 [ext_resource path="res://Assets/Main/UILayer.gd" type="Script" id=16]
 [ext_resource path="res://Assets/fonts/monogram.tres" type="DynamicFont" id=17]
 [ext_resource path="res://Assets/Scripts/Player.gd" type="Script" id=18]
+[ext_resource path="res://Assets/Main/Screens/Deck Importer.tscn" type="PackedScene" id=19]
 
 [sub_resource type="DynamicFont" id=1]
 size = 80
@@ -72,11 +73,21 @@ margin_bottom = 47.0
 tab_size = 1
 text = "0"
 
+[node name="Phase Manager" type="Node" parent="Game"]
+script = ExtResource( 3 )
+
 [node name="Card Handler" type="Node" parent="Game"]
 script = ExtResource( 8 )
 
 [node name="Zones" type="CanvasLayer" parent="Game/Card Handler"]
 layer = 3
+
+[node name="Deck Loader" type="TextureRect" parent="Game/Card Handler/Zones"]
+visible = false
+script = ExtResource( 4 )
+
+[node name="CardReader" type="Node" parent="Game/Card Handler/Zones/Deck Loader"]
+script = ExtResource( 7 )
 
 [node name="Card View" type="Node2D" parent="Game/Card Handler/Zones"]
 visible = false
@@ -85,11 +96,19 @@ scale = Vector2( 0.4, 0.4 )
 script = ExtResource( 9 )
 
 [node name="Baby Deck" type="TextureRect" parent="Game/Card Handler/Zones/Card View"]
-margin_left = 86.6667
-margin_top = 1700.0
-margin_right = 371.667
-margin_bottom = 2098.0
+margin_left = 12.5
+margin_top = 1695.0
+margin_right = 297.5
+margin_bottom = 2093.0
 texture = ExtResource( 1 )
+
+[node name="Baby Deck2" type="TextureRect" parent="Game/Card Handler/Zones/Card View"]
+margin_left = 4035.0
+margin_top = -370.0
+margin_right = 4320.0
+margin_bottom = 28.0
+texture = ExtResource( 1 )
+flip_v = true
 
 [node name="Trash" type="TextureRect" parent="Game/Card Handler/Zones/Card View"]
 margin_left = 4182.5
@@ -98,19 +117,43 @@ margin_right = 4467.5
 margin_bottom = 2108.0
 texture = ExtResource( 1 )
 
+[node name="Trash2" type="TextureRect" parent="Game/Card Handler/Zones/Card View"]
+margin_left = 62.5
+margin_top = -72.4999
+margin_right = 347.5
+margin_bottom = 325.5
+texture = ExtResource( 1 )
+flip_v = true
+
 [node name="Breeding Area" type="TextureRect" parent="Game/Card Handler/Zones/Card View"]
-margin_left = 456.667
-margin_top = 1703.33
-margin_right = 741.667
-margin_bottom = 2101.33
+margin_left = 370.0
+margin_top = 1692.5
+margin_right = 655.0
+margin_bottom = 2090.5
 texture = ExtResource( 1 )
 
-[node name="Security" type="TextureRect" parent="Game/Card Handler/Zones/Card View"]
-margin_left = 22.5
-margin_top = 907.5
-margin_right = 307.5
-margin_bottom = 1305.5
+[node name="Breeding Area2" type="TextureRect" parent="Game/Card Handler/Zones/Card View"]
+margin_left = 3455.0
+margin_top = -372.5
+margin_right = 3740.0
+margin_bottom = 25.5001
 texture = ExtResource( 1 )
+flip_v = true
+
+[node name="Security" type="TextureRect" parent="Game/Card Handler/Zones/Card View"]
+margin_left = 17.5
+margin_top = 1237.5
+margin_right = 302.5
+margin_bottom = 1635.5
+texture = ExtResource( 1 )
+
+[node name="Security2" type="TextureRect" parent="Game/Card Handler/Zones/Card View"]
+margin_left = 4042.5
+margin_top = 390.0
+margin_right = 4327.5
+margin_bottom = 788.0
+texture = ExtResource( 1 )
+flip_v = true
 
 [node name="Deck" type="TextureRect" parent="Game/Card Handler/Zones/Card View"]
 margin_left = 4182.5
@@ -119,16 +162,15 @@ margin_right = 4467.5
 margin_bottom = 1670.5
 texture = ExtResource( 1 )
 
+[node name="Deck2" type="TextureRect" parent="Game/Card Handler/Zones/Card View"]
+margin_left = 60.001
+margin_top = 392.5
+margin_right = 345.001
+margin_bottom = 790.5
+texture = ExtResource( 1 )
+flip_v = true
+
 [node name="Hand" type="Control" parent="Game/Card Handler/Zones/Card View"]
-
-[node name="Deck Loader" type="TextureRect" parent="Game/Card Handler/Zones"]
-script = ExtResource( 4 )
-
-[node name="CardReader" type="Node" parent="Game/Card Handler/Zones/Deck Loader"]
-script = ExtResource( 7 )
-
-[node name="Phase Manager" type="Node" parent="Game"]
-script = ExtResource( 3 )
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 script = ExtResource( 16 )
@@ -137,7 +179,7 @@ script = ExtResource( 16 )
 margin_right = 1913.0
 margin_bottom = 1080.0
 
-[node name="Main Menu" parent="UILayer/Screens" instance=ExtResource( 12 )]
+[node name="MainMenu" parent="UILayer/Screens" instance=ExtResource( 12 )]
 
 [node name="ConnectionScreen" parent="UILayer/Screens" instance=ExtResource( 13 )]
 visible = false
@@ -148,8 +190,10 @@ visible = false
 [node name="ReadyScreen" parent="UILayer/Screens" instance=ExtResource( 11 )]
 visible = false
 
-[node name="Overlay" type="Control" parent="UILayer"]
+[node name="DeckImporter" parent="UILayer/Screens" instance=ExtResource( 19 )]
 visible = false
+
+[node name="Overlay" type="Control" parent="UILayer"]
 margin_right = 1917.0
 margin_bottom = 1079.0
 mouse_filter = 2
@@ -165,23 +209,27 @@ text = "Waiting for players..."
 align = 1
 
 [node name="BackButton" type="Button" parent="UILayer/Overlay"]
+visible = false
 margin_left = 1846.0
 margin_top = 11.0
 margin_right = 1909.0
 margin_bottom = 90.0
 custom_fonts/font = SubResource( 1 )
-text = "X"
+text = "<-"
 
 [connection signal="new_match" from="Game" to="Game/Phase Manager" method="_on_Game_new_match"]
+[connection signal="new_match" from="Game" to="Game/Card Handler/Zones/Deck Loader" method="_on_Game_new_match"]
 [connection signal="new_match" from="Game" to="UILayer" method="_on_Game_new_match"]
 [connection signal="button_down" from="Game/Ui/End Turn Test" to="Game/Phase Manager" method="_on_End_Turn_Test_button_down"]
-[connection signal="drawn_card" from="Game/Card Handler" to="Game/Card Handler/Zones/Card View" method="_on_Card_Handler_drawn_card"]
-[connection signal="drawn_card" from="Game/Card Handler" to="Game/Phase Manager" method="_on_Card_Handler_drawn_card"]
-[connection signal="unsuspended_cards" from="Game/Card Handler" to="Game/Phase Manager" method="_on_Card_Handler_unsuspended_cards"]
-[connection signal="deck_one_loaded" from="Game/Card Handler/Zones/Deck Loader" to="Game/Card Handler/Zones/Card View" method="_on_Deck_Loader_deck_one_loaded"]
 [connection signal="phase_change" from="Game/Phase Manager" to="Game/Card Handler" method="_on_Phase_Manager_phase_change"]
+[connection signal="drawn_card" from="Game/Card Handler" to="Game/Phase Manager" method="_on_Card_Handler_drawn_card"]
+[connection signal="drawn_card" from="Game/Card Handler" to="Game/Card Handler/Zones/Card View" method="_on_Card_Handler_drawn_card"]
+[connection signal="unsuspended_cards" from="Game/Card Handler" to="Game/Phase Manager" method="_on_Card_Handler_unsuspended_cards"]
+[connection signal="deck_loaded" from="Game/Card Handler/Zones/Deck Loader" to="Game/Card Handler/Zones/Card View" method="_on_Deck_Loader_deck_loaded"]
+[connection signal="setup_done" from="Game/Card Handler/Zones/Card View" to="Game/Phase Manager" method="_on_Card_View_setup_done"]
 [connection signal="back_button" from="UILayer" to="." method="_on_UILayer_back_button"]
 [connection signal="change_screen" from="UILayer" to="." method="_on_UILayer_change_screen"]
-[connection signal="play_online" from="UILayer/Screens/Main Menu" to="." method="_on_Main_Menu_play_online"]
+[connection signal="play_online" from="UILayer/Screens/MainMenu" to="." method="_on_Main_Menu_play_online"]
+[connection signal="save_load" from="UILayer/Screens/MainMenu" to="." method="_on_MainMenu_save_load"]
 [connection signal="ready_pressed" from="UILayer/Screens/ReadyScreen" to="." method="_on_ReadyScreen_ready_pressed"]
 [connection signal="pressed" from="UILayer/Overlay/BackButton" to="UILayer" method="_on_BackButton_pressed"]

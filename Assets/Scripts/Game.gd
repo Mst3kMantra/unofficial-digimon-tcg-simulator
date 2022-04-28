@@ -44,21 +44,18 @@ remotesync func _match_start(players: Dictionary) -> void:
 		other_player.set_network_master(peer_id)
 		
 		player_index += 1
+		print(other_player.name)
 	
 	if GameState.online_play:
 		var my_id = get_tree().get_network_unique_id()
 		var my_player = players_node.get_node(str(my_id))
 		print(my_player)
-		get_tree().set_pause(false)
 		rpc("_finished_game_setup")
 		
 remotesync func _finished_game_setup() -> void:
+		get_tree().set_pause(false)
 		emit_signal("new_match")
-		print("do game start")
-		rpc("do_game_start")
-		
-remotesync func _do_game_start() -> void:
-	get_tree().set_pause(false)
+		print("game start")
 
 
 remote func _flip_board() -> void:

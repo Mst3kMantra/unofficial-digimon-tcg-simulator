@@ -21,7 +21,7 @@ func _ready() -> void:
 		if screen.has_method('_setup_screen'):
 			screen._setup_screen(self)
 	
-	show_screen("Main Menu")
+	show_screen("MainMenu")
 	_is_ready = true
 
 func get_current_screen_name() -> String:

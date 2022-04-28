@@ -12,10 +12,15 @@ signal ready_pressed ()
 func _ready() -> void:
 	clear_players()
 	
+# warning-ignore:return_value_discarded
 	OnlineMatch.connect("player_joined", self, "_on_OnlineMatch_player_joined")
+# warning-ignore:return_value_discarded
 	OnlineMatch.connect("player_left", self, "_on_OnlineMatch_player_left")
+# warning-ignore:return_value_discarded
 	OnlineMatch.connect("player_status_changed", self, "_on_OnlineMatch_player_status_changed")
+# warning-ignore:return_value_discarded
 	OnlineMatch.connect("match_ready", self, "_on_OnlineMatch_match_ready")
+# warning-ignore:return_value_discarded
 	OnlineMatch.connect("match_not_ready", self, "_on_OnlineMatch_match_not_ready")
 
 func _show_screen(info: Dictionary = {}) -> void:
