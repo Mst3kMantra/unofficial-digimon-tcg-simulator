@@ -10,10 +10,6 @@ var enemy_deck_dict = []
 #use values from imported deck to find index of the matching card in the database
 #create new dictionary for imported deck
 func load_cards():
-	rpc("_load_cards")
-
-
-remotesync func _load_cards():
 	var data_finder
 	var card_numbers = []
 	for f in card_db:
@@ -24,4 +20,7 @@ remotesync func _load_cards():
 	for k in card_reader.sent_deck:
 		data_finder = card_numbers.find(k)
 		enemy_deck_dict.append(card_db[data_finder])
+	print(card_reader.sent_deck)
+	for f in enemy_deck_dict:
+		print(f["card_name"])
 

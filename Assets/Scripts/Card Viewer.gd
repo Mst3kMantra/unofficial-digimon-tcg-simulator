@@ -161,7 +161,34 @@ func data_recieved(sent_deck_numbers, sent_enemy_deck_numbers, sent_baby_numbers
 	enemy_baby_numbers = sent_enemy_baby_numbers
 	security_numbers = sent_security_numbers
 	enemy_security_numbers = sent_enemy_security_numbers
+	organize_cards()
 
+func organize_cards():
+	var temp_deck_cards = deck_loader.deck
+	var temp_enemy_cards = deck_loader.enemy_deck
+	loop_cards(enemy_deck_numbers, temp_deck_cards, deck_cards)
+	loop_cards(deck_numbers, temp_enemy_cards, enemy_cards)
+	loop_cards(enemy_baby_numbers, temp_deck_cards, baby_deck)
+	loop_cards(baby_numbers, temp_enemy_cards, enemy_baby)
+	loop_cards(enemy_security_numbers, temp_deck_cards, security_cards)
+	loop_cards(security_cards, temp_enemy_cards, enemy_security)
+#	for f in deck_cards:
+#		print(f.card_name)
+#	for f in enemy_cards:
+#		print(f.card_name)
+	rpc("_setup_done")
+
+remotesync func _setup_done():
+	emit_signal("setup_done")
+	
+func loop_cards(numbers, temp_deck, deck):
+	var i = 0
+	while i < numbers.size():
+		for f in temp_deck:
+			if f.get("card_number") == str(numbers[i]):
+				deck.append(f)
+				break
+		i += 1
 #todo find index numbers of deck_cards and enemy_cards to each array then use pop_at() to move those cards into the
 #correct order of the master shuffle
 

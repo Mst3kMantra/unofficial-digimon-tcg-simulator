@@ -42,21 +42,25 @@ margin_right = -4.0
 margin_bottom = -4.0
 script = ExtResource( 3 )
 
-[node name="Import" type="TextEdit" parent="TabContainer/Save"]
+[node name="Import" type="LineEdit" parent="TabContainer/Save"]
 margin_left = 81.0
-margin_top = 13.0
+margin_top = 22.0
 margin_right = 585.0
-margin_bottom = 174.0
+margin_bottom = 56.0
 hint_tooltip = "Paste deck from deckbuilder website using export to TTS."
 custom_fonts/font = SubResource( 1 )
+align = 3
+clear_button_enabled = true
+caret_blink = true
 
 [node name="Deck Name" type="LineEdit" parent="TabContainer/Save"]
 margin_left = 81.0
-margin_top = 205.0
+margin_top = 118.0
 margin_right = 585.0
-margin_bottom = 235.0
+margin_bottom = 150.0
 hint_tooltip = "Paste deck from deckbuilder website using export to TTS."
 custom_fonts/font = ExtResource( 2 )
+clear_button_enabled = true
 
 [node name="Paste Label" type="Label" parent="TabContainer/Save"]
 margin_left = 1.0
@@ -68,10 +72,10 @@ text = "Paste
 Import:"
 
 [node name="Name Label" type="Label" parent="TabContainer/Save"]
-margin_left = 5.0
-margin_top = 193.0
-margin_right = 64.0
-margin_bottom = 238.0
+margin_left = 1.0
+margin_top = 110.0
+margin_right = 60.0
+margin_bottom = 155.0
 custom_fonts/font = SubResource( 3 )
 text = "Deck
 Name:"

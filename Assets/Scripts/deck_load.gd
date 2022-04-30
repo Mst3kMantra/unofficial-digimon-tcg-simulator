@@ -45,5 +45,4 @@ func deck_recieved(deck_data):
 		for k in keys:
 			enemy_deck[j].set(k, (enemy_deck_dicts[j])[k])
 		j += 1
-	print(enemy_deck.size())
 	emit_signal("deck_loaded")
