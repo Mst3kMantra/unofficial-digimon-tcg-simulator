@@ -4,6 +4,8 @@ extends Node2D
 
 onready var deck_loader = get_parent().get_node("Deck Loader")
 onready var deck_zone = $Deck
+onready var enemy_deck_zone = $Deck2
+onready var phases = get_node("/root/Main/Game/Phase Manager")
 #card zones
 var hand_cards = []
 var enemy_hand = []
@@ -17,15 +19,6 @@ var breeding_cards = []
 var enemy_breeding = []
 var security_cards = []
 var enemy_security = []
-#card numbers
-var deck_numbers = []
-var enemy_deck_numbers = []
-var baby_numbers = []
-var enemy_baby_numbers = []
-var security_numbers = []
-var enemy_security_numbers = []
-var breed_numbers = []
-var enemy_breeding_numbers = []
 #card metadata
 var card_art_string_format = "res://Resources/Sprites/%s.jpg"
 var start_pos = []
@@ -33,14 +26,24 @@ var start_pos_y = []
 var shifted_pos_left = []
 var shifted_pos_right = []
 var card_check
+var setup_is_done = false
 signal card_changed
 signal setup_done
+signal draw_complete
+#card name generator
+var card_string_format = "card%s"
+var card_name_index = 0
+var enemy_card_string_format = "enemy_card%s"
+var enemy_card_name_index = 0
 
+var random_number
 
 onready var center_hand = get_viewport_rect().size/2 + Vector2(card_offset.x/1.5 + 1200,0) + Vector2(0,card_offset.y * 1.5)
+onready var enemy_center_hand = get_viewport_rect().size/2 + Vector2(enemy_card_offset.x/1.5 + 1200,0) - Vector2(0,enemy_card_offset.y * 1.5)
 onready var mouse_check = false
 
 var card_offset = Vector2(300,800)
+var enemy_card_offset = Vector2(0,800)
 var card_margin = card_offset.x/1.1
 
 # Called when the node enters the scene tree for the first time.
@@ -54,6 +57,8 @@ func _physics_process(delta):
 	var mouse_position = get_viewport().get_mouse_position()
 	var result = space_state.intersect_ray(mouse_position, mouse_position, [], 2147483647, true, true)
 	var count = hand_cards.size()
+	if phases.phase == 8 || phases.phase == 7 || hand_cards.empty() || setup_is_done == false:
+		return
 	if result.size() == 0 && hand_cards.empty() == false && start_pos.empty() == false && start_pos_y.empty() == false:
 		emit_signal("card_changed")
 	if result.size() != 0 && mouse_position.y > 780 && mouse_position.y < 1300:
@@ -114,69 +119,50 @@ func _physics_process(delta):
 				Tween.TRANS_QUINT, Tween.EASE_IN_OUT)
 			tween_hover.start()
 
-
+func get_seed():
+	random_number = randi()
+	rpc_id(2, "_send_seed", random_number)
+	
+remote func _send_seed(random_seed):
+	random_number = random_seed
+	setup_deck()
 
 func _on_Deck_Loader_deck_loaded():
 	if get_tree().get_network_unique_id() == 1:
-		deck_cards = deck_loader.deck
-		enemy_cards = deck_loader.enemy_deck
-		var j = 0
-		while j < (enemy_cards.size()):
-			var type = enemy_cards[j].type
-			if type == "Digi-Egg":
-				enemy_baby.append(enemy_cards.pop_at(j))
-				j = 0
-			j += 1
-		var i = 0
-		while i < (deck_cards.size()):
-			var type = deck_cards[i].type
-			if type == "Digi-Egg":
-				baby_deck.append(deck_cards.pop_at(i))
-				i = 0
-			i += 1
-		deck_cards.shuffle()
-		enemy_cards.shuffle()
-		for k in (5):
-			security_cards.append(deck_cards.pop_back())
-			enemy_security.append(enemy_cards.pop_back())
-		security_numbers = get_card_numbers(security_cards)
-		enemy_security_numbers = get_card_numbers(enemy_security)
-		deck_cards.shuffle()
-		deck_numbers = get_card_numbers(deck_cards)
-		enemy_cards.shuffle()
-		enemy_deck_numbers = get_card_numbers(enemy_cards)
-		baby_deck.shuffle()
-		baby_numbers = get_card_numbers(baby_deck)
-		enemy_baby.shuffle()
-		enemy_baby_numbers = get_card_numbers(enemy_baby)
-		rpc_id(2, "_send_card_numbers", deck_numbers, enemy_deck_numbers, baby_numbers, enemy_baby_numbers, security_numbers, enemy_security_numbers)
+		get_seed()
+		setup_deck()
 
-
-remote func _send_card_numbers(sent_deck_numbers, sent_enemy_deck_numbers, sent_baby_numbers, sent_enemy_baby_numbers, sent_security_numbers, sent_enemy_security_numbers):
-	data_recieved(sent_deck_numbers, sent_enemy_deck_numbers, sent_baby_numbers, sent_enemy_baby_numbers, sent_security_numbers, sent_enemy_security_numbers)
-func data_recieved(sent_deck_numbers, sent_enemy_deck_numbers, sent_baby_numbers, sent_enemy_baby_numbers, sent_security_numbers, sent_enemy_security_numbers):
-	deck_numbers = sent_deck_numbers
-	enemy_deck_numbers = sent_enemy_deck_numbers
-	baby_numbers = sent_baby_numbers
-	enemy_baby_numbers = sent_enemy_baby_numbers
-	security_numbers = sent_security_numbers
-	enemy_security_numbers = sent_enemy_security_numbers
-	organize_cards()
-
-func organize_cards():
-	var temp_deck_cards = deck_loader.deck
-	var temp_enemy_cards = deck_loader.enemy_deck
-	loop_cards(enemy_deck_numbers, temp_deck_cards, deck_cards)
-	loop_cards(deck_numbers, temp_enemy_cards, enemy_cards)
-	loop_cards(enemy_baby_numbers, temp_deck_cards, baby_deck)
-	loop_cards(baby_numbers, temp_enemy_cards, enemy_baby)
-	loop_cards(enemy_security_numbers, temp_deck_cards, security_cards)
-	loop_cards(security_cards, temp_enemy_cards, enemy_security)
-#	for f in deck_cards:
-#		print(f.card_name)
-#	for f in enemy_cards:
-#		print(f.card_name)
-	rpc("_setup_done")
+remote func shuffle_cards(cards):
+	var shuffled_cards = []
+	var index_list = range(cards.size())
+	for _i in range(cards.size()):
+		var x = randi()%index_list.size()
+		shuffled_cards.append(cards[index_list[x]])
+		cards.remove(x)
+	
+func setup_deck():
+	seed(random_number)
+	deck_cards = deck_loader.deck
+	enemy_cards = deck_loader.enemy_deck
+	var j = 0
+	while j < (enemy_cards.size()):
+		var type = enemy_cards[j].type
+		if type == "Digi-Egg" || enemy_cards[j].stage == "In-Training" || enemy_cards[j].level == 2:
+			enemy_baby.append(enemy_cards.pop_at(j))
+			j = 0
+		j += 1
+	var i = 0
+	while i < (deck_cards.size()):
+		var type = deck_cards[i].type
+		if type == "Digi-Egg" || deck_cards[i].stage == "In-Training" || deck_cards[i].level == 2:
+			baby_deck.append(deck_cards.pop_at(i))
+			i = 0
+		i += 1
+	for k in (5):
+		security_cards.append(deck_cards.pop_back())
+		enemy_security.append(enemy_cards.pop_back())
+	if get_tree().get_network_unique_id() == 1:
+		rpc("_setup_done")
 
 remotesync func _setup_done():
 	emit_signal("setup_done")
@@ -199,37 +185,38 @@ func get_card_numbers(cards):
 	return card_numbers
 
 func _on_card_change():
+	if phases.phase == 8 || phases.phase == 7 || hand_cards.empty():
+		return
 	var count = hand_cards.size()
-	for j in count:
-		var card = hand_cards[j]
-		var tween_shrink = card.get_node("Shrink")
-		var tween_move_back = card.get_node("Move Back")
-		var tween_draw = card.get_node("Draw")
-		var area = card.get_node("Area2D")
-		if tween_shrink.is_active() == true:
-			break
-		if tween_draw.is_active() == true:
-			break
-		tween_shrink.interpolate_property(
-			card, "rect_scale", 
-			card.rect_scale, Vector2(1,1), 0.1, 
-		Tween.TRANS_QUINT)
-		tween_shrink.interpolate_property(
-			area, "scale", 
-			area.scale, Vector2(1,1), 0.1,
-		Tween.TRANS_QUINT)
-		tween_shrink.start()
-		if start_pos == null:
-			break
-		if count != start_pos.size():
-			break
-		if tween_move_back.is_active() == true:
-			tween_move_back.reset_all()
-		tween_move_back.interpolate_property(
-			card, "rect_position",
-			card.rect_position, Vector2(start_pos[j], start_pos_y[j]),
-			.1, Tween.TRANS_QUINT)
-		tween_move_back.start()
+	if setup_is_done:
+		for j in count:
+			var card = hand_cards[j]
+			var tween_shrink = card.get_node("Shrink")
+			var tween_move_back = card.get_node("Move Back")
+			var tween_draw = card.get_node("Draw")
+			var area = card.get_node("Area2D")
+			if tween_shrink.is_active() || tween_draw.is_active():
+				return
+			tween_shrink.interpolate_property(
+				card, "rect_scale", 
+				card.rect_scale, Vector2(1,1), 0.1, 
+			Tween.TRANS_QUINT)
+			tween_shrink.interpolate_property(
+				area, "scale", 
+				area.scale, Vector2(1,1), 0.1,
+			Tween.TRANS_QUINT)
+			tween_shrink.start()
+			if start_pos == null:
+				break
+			if count != start_pos.size():
+				break
+			if tween_move_back.is_active() == true:
+				tween_move_back.reset_all()
+			tween_move_back.interpolate_property(
+				card, "rect_position",
+				card.rect_position, Vector2(start_pos[j], start_pos_y[j]),
+				.1, Tween.TRANS_QUINT)
+			tween_move_back.start()
 	
 
 func _on_Card_Handler_drawn_card():
@@ -247,19 +234,30 @@ func _on_Card_Handler_drawn_card():
 			card, "rect_position", 
 			card.rect_position, Vector2(center_hand.x - center_of_cards + i * card_margin, center_hand.y), 
 			0.5, Tween.TRANS_QUINT, Tween.EASE_OUT)
-	self.add_child(drawn_card)
+	var name_card_string = card_string_format % card_name_index
+	drawn_card.set_name(name_card_string)
+	card_name_index += 1
+	drawn_card.set_network_master(1)
+	if drawn_card.get_parent():
+		drawn_card.get_parent().remove_child(drawn_card)
+		self.get_node("Pile").add_child(drawn_card)	
+	self.get_node("Pile").add_child(drawn_card)	
+	if get_tree().get_network_unique_id() == 2:
+		for f in hand_cards:
+			if f.get_parent() == null:
+				self.get_node("Pile").add_child(f)
+
 	drawn_card.rect_position = deck_position
-	
-	tween_draw.connect("tween_completed", self, "_on_draw_completed")
-	
+			
 	tween_draw.interpolate_property(
 		drawn_card, "rect_position", 
 		deck_zone.rect_position, Vector2(center_hand.x - center_of_cards + cards_in_hand * card_margin - drawn_card.rect_size.x/1.5, center_hand.y), 
 		0.5, Tween.TRANS_QUINT, Tween.EASE_OUT)
 	tween_draw.start()
-
-func _on_draw_completed(_object, _key):
+	yield(tween_draw, "tween_all_completed")
 	get_start_pos()
+	setup_is_done = true
+	emit_signal("draw_complete")
 
 
 func get_start_pos():
@@ -273,3 +271,40 @@ func get_start_pos():
 		start_pos_y.append(hand_cards[i].rect_position.y)
 		shifted_pos_left.append(hand_cards[i].rect_position.x - hand_cards[i].rect_size.x / 2)
 		shifted_pos_right.append(hand_cards[i].rect_position.x + hand_cards[i].rect_size.x/ 2)
+
+
+func _on_Card_Handler_enemy_draw_card():
+	var enemy_deck_position = enemy_deck_zone.rect_position
+	var drawn_card = enemy_hand.back()
+	var card_art_string = card_art_string_format % drawn_card.card_number
+	drawn_card.card_art = load(card_art_string)
+	drawn_card.texture = drawn_card.card_back
+	drawn_card.flip_v = true
+	var tween_draw = drawn_card.get_node("EnemyDraw")
+	var cards_in_hand = enemy_hand.size()
+	var center_of_cards = (enemy_hand.size() * card_margin - drawn_card.rect_size.x)/1.5
+	for i in cards_in_hand:
+		var card = enemy_hand[i]
+		tween_draw.interpolate_property(
+			card, "rect_position", 
+			card.rect_position, Vector2(enemy_center_hand.x - center_of_cards + i * card_margin, enemy_center_hand.y), 
+			0.5, Tween.TRANS_QUINT, Tween.EASE_OUT)
+	var enemy_card_string = enemy_card_string_format % enemy_card_name_index
+	drawn_card.set_name(enemy_card_string)
+	drawn_card.set_network_master(1)
+	if drawn_card.get_parent():
+		drawn_card.get_parent().remove_child(drawn_card)
+		self.get_node("Pile").add_child(drawn_card)
+	self.get_node("Pile").add_child(drawn_card)
+	if get_tree().get_network_unique_id() == 2:
+		for f in hand_cards:
+			if f.get_parent() == null:
+				self.get_node("Pile").add_child(f)
+	drawn_card.rect_position = enemy_deck_position
+			
+	tween_draw.interpolate_property(
+		drawn_card, "rect_position", 
+		enemy_deck_zone.rect_position, Vector2(enemy_center_hand.x - center_of_cards + cards_in_hand * card_margin - drawn_card.rect_size.x, enemy_center_hand.y), 
+		0.5, Tween.TRANS_QUINT, Tween.EASE_OUT)
+	tween_draw.start()
+	yield(tween_draw, "tween_all_completed")

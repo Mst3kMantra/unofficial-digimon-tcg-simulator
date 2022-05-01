@@ -14,13 +14,10 @@ func load_cards():
 	var card_numbers = []
 	for f in card_db:
 		card_numbers.append(f.get("card_number"))
-	for i in DefaultDeck.default_deck:
+	for i in card_reader.temp_deck:
 		data_finder = card_numbers.find(i)
 		deck_dict.append(card_db[data_finder])
 	for k in card_reader.sent_deck:
 		data_finder = card_numbers.find(k)
 		enemy_deck_dict.append(card_db[data_finder])
-	print(card_reader.sent_deck)
-	for f in enemy_deck_dict:
-		print(f["card_name"])
 

@@ -10,7 +10,6 @@ var players_ready := {}
 var players_score := {}
 
 func _ready() -> void:
-	randomize()
 # warning-ignore:return_value_discarded
 	OnlineMatch.connect("error", self, "_on_OnlineMatch_error")
 # warning-ignore:return_value_discarded

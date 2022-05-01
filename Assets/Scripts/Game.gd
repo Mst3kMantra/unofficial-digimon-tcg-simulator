@@ -20,9 +20,12 @@ onready var card_view = get_node("Card Handler/Zones/Card View")
 
 var player_index
 
-var current_player
+#add some kind of dice roll to determine who decides turn order in the beginning
+#currently host goes first
+var first_player = 1
 
 signal new_match
+signal first_player 
 signal player_dead(player_id)
 signal game_over(player_id)
 
@@ -54,6 +57,7 @@ remotesync func _match_start(players: Dictionary) -> void:
 		
 remotesync func _finished_game_setup() -> void:
 		get_tree().set_pause(false)
+		emit_signal("first_player", first_player)
 		emit_signal("new_match")
 		print("game start")
 

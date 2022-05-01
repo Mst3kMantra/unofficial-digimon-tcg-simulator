@@ -172,6 +172,10 @@ flip_v = true
 
 [node name="Hand" type="Control" parent="Game/Card Handler/Zones/Card View"]
 
+[node name="Pile" type="Control" parent="Game/Card Handler/Zones/Card View"]
+margin_right = 40.0
+margin_bottom = 40.0
+
 [node name="UILayer" type="CanvasLayer" parent="."]
 script = ExtResource( 16 )
 
@@ -217,15 +221,15 @@ margin_bottom = 90.0
 custom_fonts/font = SubResource( 1 )
 text = "<-"
 
+[connection signal="first_player" from="Game" to="Game/Phase Manager" method="_on_Game_first_player"]
 [connection signal="new_match" from="Game" to="Game/Phase Manager" method="_on_Game_new_match"]
 [connection signal="new_match" from="Game" to="Game/Card Handler/Zones/Deck Loader" method="_on_Game_new_match"]
 [connection signal="new_match" from="Game" to="UILayer" method="_on_Game_new_match"]
 [connection signal="button_down" from="Game/Ui/End Turn Test" to="Game/Phase Manager" method="_on_End_Turn_Test_button_down"]
 [connection signal="phase_change" from="Game/Phase Manager" to="Game/Card Handler" method="_on_Phase_Manager_phase_change"]
-[connection signal="drawn_card" from="Game/Card Handler" to="Game/Phase Manager" method="_on_Card_Handler_drawn_card"]
-[connection signal="drawn_card" from="Game/Card Handler" to="Game/Card Handler/Zones/Card View" method="_on_Card_Handler_drawn_card"]
 [connection signal="unsuspended_cards" from="Game/Card Handler" to="Game/Phase Manager" method="_on_Card_Handler_unsuspended_cards"]
 [connection signal="deck_loaded" from="Game/Card Handler/Zones/Deck Loader" to="Game/Card Handler/Zones/Card View" method="_on_Deck_Loader_deck_loaded"]
+[connection signal="draw_complete" from="Game/Card Handler/Zones/Card View" to="Game/Phase Manager" method="_on_Card_View_draw_complete"]
 [connection signal="setup_done" from="Game/Card Handler/Zones/Card View" to="Game/Phase Manager" method="_on_Card_View_setup_done"]
 [connection signal="back_button" from="UILayer" to="." method="_on_UILayer_back_button"]
 [connection signal="change_screen" from="UILayer" to="." method="_on_UILayer_change_screen"]

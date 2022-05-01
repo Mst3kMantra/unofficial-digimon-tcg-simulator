@@ -31,7 +31,10 @@ shape = SubResource( 2 )
 
 [node name="Shrink" type="Tween" parent="."]
 
+[node name="EnemyDraw" type="Tween" parent="."]
+
 [node name="Infobox" type="Panel" parent="."]
+visible = false
 margin_left = 2.0
 margin_top = 509.0
 margin_right = 363.0
