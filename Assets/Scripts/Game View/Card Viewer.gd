@@ -1,10 +1,10 @@
 extends Node2D
 
 
-
+#nodes
 onready var deck_loader = get_parent().get_node("Deck Loader")
-onready var deck_zone = $Deck
-onready var enemy_deck_zone = $Deck2
+onready var deck_zone = get_node("Player1/Deck")
+onready var enemy_deck_zone = get_node("Player2/Deck2")
 onready var phases = get_node("/root/Main/Game/Phase Manager")
 #card zones
 var hand_cards = []
@@ -27,6 +27,7 @@ var shifted_pos_left = []
 var shifted_pos_right = []
 var card_check
 var setup_is_done = false
+#signals
 signal card_changed
 signal setup_done
 signal draw_complete
@@ -35,7 +36,7 @@ var card_string_format = "card%s"
 var card_name_index = 0
 var enemy_card_string_format = "enemy_card%s"
 var enemy_card_name_index = 0
-
+#seed
 var random_number
 
 onready var center_hand = get_viewport_rect().size/2 + Vector2(card_offset.x/1.5 + 1200,0) + Vector2(0,card_offset.y * 1.5)
@@ -177,12 +178,6 @@ func loop_cards(numbers, temp_deck, deck):
 		i += 1
 #todo find index numbers of deck_cards and enemy_cards to each array then use pop_at() to move those cards into the
 #correct order of the master shuffle
-
-func get_card_numbers(cards):
-	var card_numbers = []
-	for f in cards:
-		card_numbers.append(f.card_number)
-	return card_numbers
 
 func _on_card_change():
 	if phases.phase == 8 || phases.phase == 7 || hand_cards.empty():

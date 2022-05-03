@@ -14,8 +14,7 @@ onready var online_match = get_node("/root/OnlineMatch")
 onready var phases = get_node("Phase Manager")
 onready var players_node = $Players
 onready var board = get_node("Background/Board")
-onready var counter = get_node("Ui/Counter")
-onready var end_turn = get_node("Ui/End Turn Test")
+onready var game_ui = get_node("Phase Manager/Game UI/UI Elements")
 onready var card_view = get_node("Card Handler/Zones/Card View")
 
 var player_index
@@ -67,6 +66,5 @@ remote func _flip_board() -> void:
 
 remotesync func _reload_board() -> void:
 	board.visible = true
-	counter.visible = true
+	game_ui.visible = true
 	card_view.visible = true
-	end_turn.visible = true

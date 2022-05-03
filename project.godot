@@ -139,7 +139,7 @@ OnlineMatch="*res://addons/nakama-webrtc/OnlineMatch.gd"
 Online="*res://Assets/Autoload/Online.gd"
 GameState="*res://Assets/Autoload/GameState.gd"
 Build="*res://Assets/Autoload/Build.gd"
-DefaultDeck="*res://Assets/Scripts/default_deck.gd"
+DefaultDeck="*res://Assets/Autoload/default_deck.gd"
 
 [display]
 

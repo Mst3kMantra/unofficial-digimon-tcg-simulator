@@ -51,3 +51,34 @@ margin_top = 16.0
 margin_right = 284.0
 margin_bottom = 32.0
 text = "Current Security Checks:"
+
+[node name="PopupMenu" type="PopupMenu" parent="."]
+visible = true
+margin_left = 167.568
+margin_top = 8.0
+margin_right = 271.568
+margin_bottom = 144.0
+
+[node name="Button" type="Button" parent="PopupMenu"]
+margin_left = 8.0
+margin_top = 8.0
+margin_right = 96.0
+margin_bottom = 32.0
+
+[node name="Button2" type="Button" parent="PopupMenu"]
+margin_left = 8.0
+margin_top = 40.0
+margin_right = 96.0
+margin_bottom = 64.0
+
+[node name="Button3" type="Button" parent="PopupMenu"]
+margin_left = 8.0
+margin_top = 72.0
+margin_right = 96.0
+margin_bottom = 96.0
+
+[node name="Button4" type="Button" parent="PopupMenu"]
+margin_left = 8.0
+margin_top = 104.0
+margin_right = 96.0
+margin_bottom = 128.0
