@@ -57,6 +57,10 @@ func _physics_process(delta):
 	var space_state = get_world_2d().direct_space_state
 	var mouse_position = get_viewport().get_mouse_position()
 	var result = space_state.intersect_ray(mouse_position, mouse_position, [], 2147483647, true, true)
+	if Input.is_action_just_pressed("click") & result["collider"].get_parent().has_method("show_popup_menu"):
+		var selected_card = result["collider"].get_parent()
+		var last_mouse_pos = get_global_mouse_position()
+		selected_card.show_popup_menu(last_mouse_pos)
 	var count = hand_cards.size()
 	if phases.phase == 8 || phases.phase == 7 || hand_cards.empty() || setup_is_done == false:
 		return
@@ -149,6 +153,7 @@ func setup_deck():
 	while j < (enemy_cards.size()):
 		var type = enemy_cards[j].type
 		if type == "Digi-Egg" || enemy_cards[j].stage == "In-Training" || enemy_cards[j].level == 2:
+			enemy_cards[j].zone = enemy_cards[j].ZONES.BABYDECK
 			enemy_baby.append(enemy_cards.pop_at(j))
 			j = 0
 		j += 1
@@ -156,11 +161,16 @@ func setup_deck():
 	while i < (deck_cards.size()):
 		var type = deck_cards[i].type
 		if type == "Digi-Egg" || deck_cards[i].stage == "In-Training" || deck_cards[i].level == 2:
+			deck_cards[i].zone = deck_cards[i].ZONES.BABYDECK
 			baby_deck.append(deck_cards.pop_at(i))
 			i = 0
 		i += 1
 	for k in (5):
+		var security_set = deck_cards.back()
+		var enemy_security_set = enemy_cards.back()
+		security_set.zone = security_set.ZONES.SECURITY
 		security_cards.append(deck_cards.pop_back())
+		enemy_security_set.zone = enemy_security_set.ZONES.SECURITY
 		enemy_security.append(enemy_cards.pop_back())
 	if get_tree().get_network_unique_id() == 1:
 		rpc("_setup_done")

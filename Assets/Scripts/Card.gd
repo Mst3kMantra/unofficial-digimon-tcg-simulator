@@ -7,6 +7,7 @@ var dp_string_ph = "Current DP: %s"
 var dp_string = dp_string_ph % self.dp
 var checks_string_ph = "Current Security Checks: %s"
 var checks_string = checks_string_ph % self.checks
+onready var menu = $PopupMenu
 
 #Card Data
 var id
@@ -38,11 +39,24 @@ var sickness = false
 var suspension = false
 var phase
 
+enum Zones {
+	HAND = 0,
+	DECK = 1,
+	BABYDECK = 2,
+	BREEDING = 3,
+	TRASH = 4,
+	SECURITY = 5,
+	BATTLEAREA = 6,
+	TAMERAREA = 7
+}
+
 var order_of_play
 var owner_index
-#var zone = Player.Zones.DECK
+var zone = Zones.DECK
 
 
-func _on_Summon_pressed():
-	emit_signal("summoned", name)
+func _on_play_pressed():
+	emit_signal("played", name)
 
+func show_popup_menu(mouse_pos):
+	menu.popup(Rect2(mouse_pos.x, mouse_pos.y, menu.rect_size.x, menu.rect_size.y))

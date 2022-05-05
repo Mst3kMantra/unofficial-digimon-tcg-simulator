@@ -28,6 +28,7 @@ func draw_card(amount):
 	for n in amount:
 		var drawn_card = card_view.deck_cards.back()
 		card_view.deck_cards.pop_back()
+		drawn_card.zone = drawn_card.Zones.HAND
 		card_view.hand_cards.append(drawn_card)
 		card_view._on_Card_Handler_drawn_card()
 	emit_signal("drawn_card")
@@ -36,6 +37,7 @@ func enemy_draw_card(amount):
 	for n in amount:
 		var enemy_drawn_card = card_view.enemy_cards.back()
 		card_view.enemy_cards.pop_back()
+		enemy_drawn_card.zone = enemy_drawn_card.Zones.HAND
 		card_view.enemy_hand.append(enemy_drawn_card)
 		card_view._on_Card_Handler_enemy_draw_card()
 	emit_signal("enemy_drawn_card")
@@ -44,6 +46,7 @@ remote func _enemy_draw(amount):
 	for n in amount:
 		var enemy_drawn_card = card_view.enemy_cards.back()
 		card_view.enemy_cards.pop_back()
+		enemy_drawn_card.zone = enemy_drawn_card.Zones.HAND
 		card_view.enemy_hand.append(enemy_drawn_card)
 		card_view._on_Card_Handler_enemy_draw_card()
 	emit_signal("enemy_drawn_card")
@@ -52,6 +55,7 @@ remote func _draw(amount):
 	for n in amount:
 		var drawn_card = card_view.deck_cards.back()
 		card_view.deck_cards.pop_back()
+		drawn_card.zone = drawn_card.Zones.HAND
 		card_view.hand_cards.append(drawn_card)
 		card_view._on_Card_Handler_drawn_card()
 	emit_signal("drawn_card")

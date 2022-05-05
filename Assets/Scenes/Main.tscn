@@ -1,9 +1,10 @@
-[gd_scene load_steps=24 format=2]
+[gd_scene load_steps=25 format=2]
 
 [ext_resource path="res://Resources/Sprites/card_back.jpg" type="Texture" id=1]
 [ext_resource path="res://Assets/Scripts/Game.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Scripts/Phases.gd" type="Script" id=3]
 [ext_resource path="res://Assets/Scripts/deck_load.gd" type="Script" id=4]
+[ext_resource path="res://Resources/Sprites/gridslot.png" type="Texture" id=5]
 [ext_resource path="res://Resources/Sprites/s-l1600.jpg" type="Texture" id=6]
 [ext_resource path="res://Assets/Scripts/CardFactory.gd" type="Script" id=7]
 [ext_resource path="res://Assets/Scripts/Handlers/Action Center.gd" type="Script" id=8]
@@ -66,6 +67,7 @@ script = ExtResource( 3 )
 layer = 2
 
 [node name="UI Elements" type="Control" parent="Game/Phase Manager/Game UI"]
+visible = false
 margin_right = 1919.0
 margin_bottom = 1083.0
 
@@ -171,10 +173,10 @@ margin_bottom = 2093.0
 texture = ExtResource( 1 )
 
 [node name="Trash" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1"]
-margin_left = 4165.0
-margin_top = 1700.0
-margin_right = 4450.0
-margin_bottom = 2098.0
+margin_left = 4185.0
+margin_top = 1715.0
+margin_right = 4470.0
+margin_bottom = 2113.0
 texture = ExtResource( 1 )
 
 [node name="Breeding Area" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1"]
@@ -192,21 +194,165 @@ margin_bottom = 1373.0
 texture = ExtResource( 1 )
 
 [node name="Deck" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1"]
-margin_left = 4165.0
+margin_left = 4185.0
 margin_top = 975.0
-margin_right = 4450.0
+margin_right = 4470.0
 margin_bottom = 1373.0
 texture = ExtResource( 1 )
+
+[node name="BattleArea1" type="Control" parent="Game/Card Handler/Zones/Card View/Player1"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="Slot1" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 685.0
+margin_top = 935.0
+margin_right = 971.0
+margin_bottom = 1345.0
+texture = ExtResource( 5 )
+
+[node name="Slot2" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 1005.0
+margin_top = 935.0
+margin_right = 1291.0
+margin_bottom = 1345.0
+texture = ExtResource( 5 )
+
+[node name="Slot3" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 1325.0
+margin_top = 935.0
+margin_right = 1611.0
+margin_bottom = 1345.0
+texture = ExtResource( 5 )
+
+[node name="Slot4" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 1645.0
+margin_top = 935.0
+margin_right = 1931.0
+margin_bottom = 1345.0
+texture = ExtResource( 5 )
+
+[node name="Slot5" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 1965.0
+margin_top = 935.0
+margin_right = 2251.0
+margin_bottom = 1345.0
+texture = ExtResource( 5 )
+
+[node name="Slot6" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 2285.0
+margin_top = 935.0
+margin_right = 2571.0
+margin_bottom = 1345.0
+texture = ExtResource( 5 )
+
+[node name="Slot7" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 2605.0
+margin_top = 935.0
+margin_right = 2891.0
+margin_bottom = 1345.0
+texture = ExtResource( 5 )
+
+[node name="Slot8" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 2925.0
+margin_top = 935.0
+margin_right = 3211.0
+margin_bottom = 1345.0
+texture = ExtResource( 5 )
+
+[node name="Slot9" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 3245.0
+margin_top = 935.0
+margin_right = 3531.0
+margin_bottom = 1345.0
+texture = ExtResource( 5 )
+
+[node name="Slot10" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 3565.0
+margin_top = 935.0
+margin_right = 3851.0
+margin_bottom = 1345.0
+texture = ExtResource( 5 )
+
+[node name="Slot11" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 685.0
+margin_top = 1415.0
+margin_right = 971.0
+margin_bottom = 1825.0
+texture = ExtResource( 5 )
+
+[node name="Slot12" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 1005.0
+margin_top = 1415.0
+margin_right = 1291.0
+margin_bottom = 1825.0
+texture = ExtResource( 5 )
+
+[node name="Slot13" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 1325.0
+margin_top = 1415.0
+margin_right = 1611.0
+margin_bottom = 1825.0
+texture = ExtResource( 5 )
+
+[node name="Slot14" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 1645.0
+margin_top = 1415.0
+margin_right = 1931.0
+margin_bottom = 1825.0
+texture = ExtResource( 5 )
+
+[node name="Slot15" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 1965.0
+margin_top = 1415.0
+margin_right = 2251.0
+margin_bottom = 1825.0
+texture = ExtResource( 5 )
+
+[node name="Slot16" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 2285.0
+margin_top = 1415.0
+margin_right = 2571.0
+margin_bottom = 1825.0
+texture = ExtResource( 5 )
+
+[node name="Slot17" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 2605.0
+margin_top = 1415.0
+margin_right = 2891.0
+margin_bottom = 1825.0
+texture = ExtResource( 5 )
+
+[node name="Slot18" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 2925.0
+margin_top = 1415.0
+margin_right = 3211.0
+margin_bottom = 1825.0
+texture = ExtResource( 5 )
+
+[node name="Slot19" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 3245.0
+margin_top = 1415.0
+margin_right = 3531.0
+margin_bottom = 1825.0
+texture = ExtResource( 5 )
+
+[node name="Slot20" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
+margin_left = 3565.0
+margin_top = 1415.0
+margin_right = 3851.0
+margin_bottom = 1825.0
+texture = ExtResource( 5 )
 
 [node name="Player2" type="Control" parent="Game/Card Handler/Zones/Card View"]
 margin_right = 40.0
 margin_bottom = 40.0
 
 [node name="Baby Deck2" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2"]
-margin_left = 4165.0
+margin_left = 4205.0
 margin_top = -325.0
-margin_right = 4450.0
-margin_bottom = 72.9999
+margin_right = 4490.0
+margin_bottom = 73.0001
 texture = ExtResource( 1 )
 flip_v = true
 
@@ -219,17 +365,17 @@ texture = ExtResource( 1 )
 flip_v = true
 
 [node name="Breeding Area2" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2"]
-margin_left = 3805.0
+margin_left = 3865.0
 margin_top = -325.0
-margin_right = 4090.0
-margin_bottom = 72.9999
+margin_right = 4150.0
+margin_bottom = 73.0001
 texture = ExtResource( 1 )
 flip_v = true
 
 [node name="Security2" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2"]
-margin_left = 4165.0
+margin_left = 4185.0
 margin_top = 335.0
-margin_right = 4450.0
+margin_right = 4470.0
 margin_bottom = 733.0
 texture = ExtResource( 1 )
 flip_v = true
@@ -241,6 +387,150 @@ margin_right = 290.0
 margin_bottom = 753.0
 texture = ExtResource( 1 )
 flip_v = true
+
+[node name="BattleArea2" type="Control" parent="Game/Card Handler/Zones/Card View/Player2"]
+margin_right = 40.0
+margin_bottom = 40.0
+
+[node name="EnemySlot1" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 685.0
+margin_top = 355.0
+margin_right = 971.0
+margin_bottom = 765.0
+texture = ExtResource( 5 )
+
+[node name="EnemySlot2" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 1005.0
+margin_top = 355.0
+margin_right = 1291.0
+margin_bottom = 765.0
+texture = ExtResource( 5 )
+
+[node name="EnemySlot3" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 1325.0
+margin_top = 355.0
+margin_right = 1611.0
+margin_bottom = 765.0
+texture = ExtResource( 5 )
+
+[node name="EnemySlot4" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 1645.0
+margin_top = 355.0
+margin_right = 1931.0
+margin_bottom = 765.0
+texture = ExtResource( 5 )
+
+[node name="EnemySlot5" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 1965.0
+margin_top = 355.0
+margin_right = 2251.0
+margin_bottom = 765.0
+texture = ExtResource( 5 )
+
+[node name="EnemySlot6" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 2285.0
+margin_top = 355.0
+margin_right = 2571.0
+margin_bottom = 765.0
+texture = ExtResource( 5 )
+
+[node name="EnemySlot7" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 2605.0
+margin_top = 355.0
+margin_right = 2891.0
+margin_bottom = 765.0
+texture = ExtResource( 5 )
+
+[node name="EnemySlot8" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 2925.0
+margin_top = 355.0
+margin_right = 3211.0
+margin_bottom = 765.0
+texture = ExtResource( 5 )
+
+[node name="EnemySlot9" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 3245.0
+margin_top = 355.0
+margin_right = 3531.0
+margin_bottom = 765.0
+texture = ExtResource( 5 )
+
+[node name="EnemySlot10" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 3565.0
+margin_top = 355.0
+margin_right = 3851.0
+margin_bottom = 765.0
+texture = ExtResource( 5 )
+
+[node name="EnemySlot11" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 685.0
+margin_top = -125.0
+margin_right = 971.0
+margin_bottom = 285.0
+texture = ExtResource( 5 )
+
+[node name="EnemySlot12" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 1005.0
+margin_top = -125.0
+margin_right = 1291.0
+margin_bottom = 285.0
+texture = ExtResource( 5 )
+
+[node name="EnemySlot13" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 1325.0
+margin_top = -125.0
+margin_right = 1611.0
+margin_bottom = 285.0
+texture = ExtResource( 5 )
+
+[node name="EnemySlot14" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 1645.0
+margin_top = -125.0
+margin_right = 1931.0
+margin_bottom = 285.0
+texture = ExtResource( 5 )
+
+[node name="EnemySlot15" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 1965.0
+margin_top = -125.0
+margin_right = 2251.0
+margin_bottom = 285.0
+texture = ExtResource( 5 )
+
+[node name="EnemySlot16" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 2285.0
+margin_top = -125.0
+margin_right = 2571.0
+margin_bottom = 285.0
+texture = ExtResource( 5 )
+
+[node name="EnemySlot17" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 2605.0
+margin_top = -125.0
+margin_right = 2891.0
+margin_bottom = 285.0
+texture = ExtResource( 5 )
+
+[node name="EnemySlot18" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 2925.0
+margin_top = -125.0
+margin_right = 3211.0
+margin_bottom = 285.0
+texture = ExtResource( 5 )
+
+[node name="EnemySlot19" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 3245.0
+margin_top = -125.0
+margin_right = 3531.0
+margin_bottom = 285.0
+texture = ExtResource( 5 )
+
+[node name="EnemySlot20" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
+margin_left = 3565.0
+margin_top = -125.0
+margin_right = 3851.0
+margin_bottom = 285.0
+texture = ExtResource( 5 )
 
 [node name="Pile" type="Control" parent="Game/Card Handler/Zones/Card View"]
 margin_right = 40.0
