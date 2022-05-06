@@ -133,7 +133,7 @@ material = SubResource( 4 )
 margin_left = 4.0
 margin_top = 4.0
 margin_right = 507.0
-margin_bottom = 192.0
+margin_bottom = 218.0
 
 [node name="RichTextLabel" type="RichTextLabel" parent="Game/Phase Manager/Game UI/UI Elements/Action Query/Panel"]
 margin_left = 27.0
@@ -184,7 +184,7 @@ margin_left = 365.0
 margin_top = 1695.0
 margin_right = 650.0
 margin_bottom = 2093.0
-texture = ExtResource( 1 )
+texture = ExtResource( 5 )
 
 [node name="Security" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1"]
 margin_left = 5.0
@@ -369,7 +369,7 @@ margin_left = 3865.0
 margin_top = -325.0
 margin_right = 4150.0
 margin_bottom = 73.0001
-texture = ExtResource( 1 )
+texture = ExtResource( 5 )
 flip_v = true
 
 [node name="Security2" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2"]

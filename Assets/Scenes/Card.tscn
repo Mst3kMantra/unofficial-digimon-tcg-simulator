@@ -55,3 +55,6 @@ text = "Current Security Checks:"
 [node name="PopupMenu" type="PopupMenu" parent="."]
 margin_right = 20.0
 margin_bottom = 20.0
+
+[connection signal="id_pressed" from="PopupMenu" to="." method="_on_PopupMenu_id_pressed"]
+[connection signal="popup_hide" from="PopupMenu" to="." method="_on_PopupMenu_popup_hide"]

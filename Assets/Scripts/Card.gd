@@ -9,8 +9,10 @@ var checks_string_ph = "Current Security Checks: %s"
 var checks_string = checks_string_ph % self.checks
 onready var menu = $PopupMenu
 
+signal card_action_selected
+
 #Card Data
-var id
+var card_id
 var card_name
 var type
 var play_cost
@@ -60,3 +62,25 @@ func _on_play_pressed():
 
 func show_popup_menu(mouse_pos):
 	menu.popup(Rect2(mouse_pos.x, mouse_pos.y, menu.rect_size.x, menu.rect_size.y))
+
+func add_menu_items():
+	if menu.get_item_count() != null || 0:
+		menu.clear()
+	if self.zone == Zones.HAND:
+		menu.add_item("Play", 0)
+		if type == "Digimon":
+			menu.add_item("Digivolve", 1)
+		if type == "Digimon" || type == "Tamer":
+			menu.add_item("Activate Effect", 2)
+	if self.zone == Zones.BATTLEAREA:
+		menu.add_item("Activate Effect", 2)
+	if self.zone == Zones.BREEDING && type == "digimon" && stage != "In-Training" && level > 2:
+		menu.add_item("Move to Battle Area", 3)
+
+
+func _on_PopupMenu_popup_hide():
+	menu.clear()
+
+
+func _on_PopupMenu_id_pressed(id):
+	emit_signal("card_action_selected", id, self)

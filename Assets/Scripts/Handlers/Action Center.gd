@@ -27,6 +27,7 @@ func unsuspend_all():
 func draw_card(amount):
 	for n in amount:
 		var drawn_card = card_view.deck_cards.back()
+		drawn_card.connect("card_action_selected", self, "_on_card_action_selected")
 		card_view.deck_cards.pop_back()
 		drawn_card.zone = drawn_card.Zones.HAND
 		card_view.hand_cards.append(drawn_card)
@@ -72,6 +73,9 @@ func hatch_egg():
 		print(f.card_name)
 	emit_signal("hatched_egg")
 
+func play_card():
+	pass
+	
 func _on_Phase_Manager_phase_change():
 	var player_id = get_tree().get_network_unique_id()
 	match phases.phase:
@@ -97,3 +101,6 @@ func _on_Phase_Manager_phase_change():
 					enemy_draw_card(1)
 					rpc_id(2, "_draw", 1)
 
+func _on_card_action_selected(id, calling_card):
+	if id == 0:
+		play_card()
