@@ -125,3 +125,7 @@ remote func _client_end_phase():
 
 remotesync func _remote_phase_change():
 	next_phase()
+
+
+func _on_Card_Handler_hatched_egg():
+	next_phase()

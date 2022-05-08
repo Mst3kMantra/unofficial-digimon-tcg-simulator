@@ -4,7 +4,6 @@
 [ext_resource path="res://Assets/Scripts/Game.gd" type="Script" id=2]
 [ext_resource path="res://Assets/Scripts/Phases.gd" type="Script" id=3]
 [ext_resource path="res://Assets/Scripts/deck_load.gd" type="Script" id=4]
-[ext_resource path="res://Resources/Sprites/gridslot.png" type="Texture" id=5]
 [ext_resource path="res://Resources/Sprites/s-l1600.jpg" type="Texture" id=6]
 [ext_resource path="res://Assets/Scripts/CardFactory.gd" type="Script" id=7]
 [ext_resource path="res://Assets/Scripts/Handlers/Action Center.gd" type="Script" id=8]
@@ -19,6 +18,7 @@
 [ext_resource path="res://Assets/fonts/monogram.tres" type="DynamicFont" id=17]
 [ext_resource path="res://Assets/Scripts/Player.gd" type="Script" id=18]
 [ext_resource path="res://Assets/Main/Screens/Deck Importer.tscn" type="PackedScene" id=19]
+[ext_resource path="res://Assets/Scenes/Zone.tscn" type="PackedScene" id=20]
 
 [sub_resource type="DynamicFont" id=2]
 size = 50
@@ -51,6 +51,7 @@ script = ExtResource( 18 )
 [node name="Background" type="CanvasLayer" parent="Game"]
 
 [node name="Board" type="TextureRect" parent="Game/Background"]
+visible = false
 margin_right = 1926.0
 margin_bottom = 1086.0
 rect_rotation = 0.0843596
@@ -72,10 +73,10 @@ margin_right = 1919.0
 margin_bottom = 1083.0
 
 [node name="End Turn" type="Button" parent="Game/Phase Manager/Game UI/UI Elements"]
-margin_left = 1473.0
-margin_top = 580.0
-margin_right = 1540.0
-margin_bottom = 600.0
+margin_left = 1656.0
+margin_top = 520.0
+margin_right = 1723.0
+margin_bottom = 540.0
 rect_scale = Vector2( 2.53929, 2.25831 )
 text = "End Turn"
 
@@ -109,10 +110,10 @@ text = " Phase"
 align = 1
 
 [node name="Turn Display" type="Panel" parent="Game/Phase Manager/Game UI/UI Elements"]
-margin_left = 1648.0
-margin_top = 520.0
-margin_right = 1816.0
-margin_bottom = 577.0
+margin_left = 1656.0
+margin_top = 456.0
+margin_right = 1824.0
+margin_bottom = 513.0
 
 [node name="Turn Number" type="Label" parent="Game/Phase Manager/Game UI/UI Elements/Turn Display"]
 margin_top = 8.0
@@ -157,6 +158,7 @@ script = ExtResource( 4 )
 script = ExtResource( 7 )
 
 [node name="Card View" type="Node2D" parent="Game/Card Handler/Zones"]
+visible = false
 position = Vector2( 70, 202 )
 scale = Vector2( 0.4, 0.4 )
 script = ExtResource( 9 )
@@ -165,226 +167,208 @@ script = ExtResource( 9 )
 margin_right = 40.0
 margin_bottom = 40.0
 
-[node name="Baby Deck" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1"]
-margin_left = 5.0
+[node name="Baby Deck" parent="Game/Card Handler/Zones/Card View/Player1" instance=ExtResource( 20 )]
+margin_left = 5.00011
 margin_top = 1695.0
-margin_right = 290.0
-margin_bottom = 2093.0
+margin_right = 291.0
+margin_bottom = 2105.0
 texture = ExtResource( 1 )
 
-[node name="Trash" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1"]
-margin_left = 4185.0
-margin_top = 1715.0
-margin_right = 4470.0
-margin_bottom = 2113.0
+[node name="Security" parent="Game/Card Handler/Zones/Card View/Player1" instance=ExtResource( 20 )]
+margin_left = 5.0
+margin_top = 1195.0
+margin_right = 291.0
+margin_bottom = 1605.0
 texture = ExtResource( 1 )
 
-[node name="Breeding Area" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1"]
+[node name="Breeding Area" parent="Game/Card Handler/Zones/Card View/Player1" instance=ExtResource( 20 )]
 margin_left = 365.0
 margin_top = 1695.0
-margin_right = 650.0
-margin_bottom = 2093.0
-texture = ExtResource( 5 )
+margin_right = 651.0
+margin_bottom = 2105.0
 
-[node name="Security" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1"]
-margin_left = 5.0
-margin_top = 975.0
-margin_right = 290.0
-margin_bottom = 1373.0
+[node name="Deck" parent="Game/Card Handler/Zones/Card View/Player1" instance=ExtResource( 20 )]
+margin_left = 4185.0
+margin_top = 1235.0
+margin_right = 4471.0
+margin_bottom = 1645.0
 texture = ExtResource( 1 )
 
-[node name="Deck" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1"]
+[node name="Trash" parent="Game/Card Handler/Zones/Card View/Player1" instance=ExtResource( 20 )]
 margin_left = 4185.0
-margin_top = 975.0
-margin_right = 4470.0
-margin_bottom = 1373.0
+margin_top = 1715.0
+margin_right = 4471.0
+margin_bottom = 2125.0
 texture = ExtResource( 1 )
 
 [node name="BattleArea1" type="Control" parent="Game/Card Handler/Zones/Card View/Player1"]
 margin_right = 40.0
 margin_bottom = 40.0
 
-[node name="Slot1" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 685.0
-margin_top = 935.0
-margin_right = 971.0
-margin_bottom = 1345.0
-texture = ExtResource( 5 )
+[node name="slot_1" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1" instance=ExtResource( 20 )]
+margin_left = 805.0
+margin_top = 915.0
+margin_right = 1091.0
+margin_bottom = 1325.0
 
-[node name="Slot2" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 1005.0
-margin_top = 935.0
-margin_right = 1291.0
-margin_bottom = 1345.0
-texture = ExtResource( 5 )
+[node name="slot_2" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1" instance=ExtResource( 20 )]
+margin_left = 1125.0
+margin_top = 915.0
+margin_right = 1411.0
+margin_bottom = 1325.0
 
-[node name="Slot3" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 1325.0
-margin_top = 935.0
-margin_right = 1611.0
-margin_bottom = 1345.0
-texture = ExtResource( 5 )
+[node name="slot_3" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1" instance=ExtResource( 20 )]
+margin_left = 1445.0
+margin_top = 915.0
+margin_right = 1731.0
+margin_bottom = 1325.0
 
-[node name="Slot4" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 1645.0
-margin_top = 935.0
-margin_right = 1931.0
-margin_bottom = 1345.0
-texture = ExtResource( 5 )
+[node name="slot_4" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1" instance=ExtResource( 20 )]
+margin_left = 1765.0
+margin_top = 915.0
+margin_right = 2051.0
+margin_bottom = 1325.0
 
-[node name="Slot5" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 1965.0
-margin_top = 935.0
-margin_right = 2251.0
-margin_bottom = 1345.0
-texture = ExtResource( 5 )
+[node name="slot_5" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1" instance=ExtResource( 20 )]
+margin_left = 2085.0
+margin_top = 915.0
+margin_right = 2371.0
+margin_bottom = 1325.0
 
-[node name="Slot6" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 2285.0
-margin_top = 935.0
-margin_right = 2571.0
-margin_bottom = 1345.0
-texture = ExtResource( 5 )
+[node name="slot_6" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1" instance=ExtResource( 20 )]
+margin_left = 2405.0
+margin_top = 915.0
+margin_right = 2691.0
+margin_bottom = 1325.0
 
-[node name="Slot7" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 2605.0
-margin_top = 935.0
-margin_right = 2891.0
-margin_bottom = 1345.0
-texture = ExtResource( 5 )
+[node name="slot_7" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1" instance=ExtResource( 20 )]
+margin_left = 2725.0
+margin_top = 915.0
+margin_right = 3011.0
+margin_bottom = 1325.0
 
-[node name="Slot8" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 2925.0
-margin_top = 935.0
-margin_right = 3211.0
-margin_bottom = 1345.0
-texture = ExtResource( 5 )
+[node name="slot_8" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1" instance=ExtResource( 20 )]
+margin_left = 3045.0
+margin_top = 915.0
+margin_right = 3331.0
+margin_bottom = 1325.0
 
-[node name="Slot9" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 3245.0
-margin_top = 935.0
-margin_right = 3531.0
-margin_bottom = 1345.0
-texture = ExtResource( 5 )
+[node name="slot_9" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1" instance=ExtResource( 20 )]
+margin_left = 3365.0
+margin_top = 915.0
+margin_right = 3651.0
+margin_bottom = 1325.0
 
-[node name="Slot10" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 3565.0
-margin_top = 935.0
-margin_right = 3851.0
-margin_bottom = 1345.0
-texture = ExtResource( 5 )
+[node name="slot_10" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1" instance=ExtResource( 20 )]
+margin_left = 3685.0
+margin_top = 915.0
+margin_right = 3971.0
+margin_bottom = 1325.0
 
-[node name="Slot11" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 685.0
-margin_top = 1415.0
-margin_right = 971.0
-margin_bottom = 1825.0
-texture = ExtResource( 5 )
+[node name="TamerArea1" type="Control" parent="Game/Card Handler/Zones/Card View/Player1"]
+margin_right = 40.0
+margin_bottom = 40.0
 
-[node name="Slot12" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 1005.0
-margin_top = 1415.0
-margin_right = 1291.0
-margin_bottom = 1825.0
-texture = ExtResource( 5 )
+[node name="tamer_1" parent="Game/Card Handler/Zones/Card View/Player1/TamerArea1" instance=ExtResource( 20 )]
+margin_left = 805.0
+margin_top = 1395.0
+margin_right = 1091.0
+margin_bottom = 1805.0
 
-[node name="Slot13" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 1325.0
-margin_top = 1415.0
-margin_right = 1611.0
-margin_bottom = 1825.0
-texture = ExtResource( 5 )
+[node name="tamer_2" parent="Game/Card Handler/Zones/Card View/Player1/TamerArea1" instance=ExtResource( 20 )]
+margin_left = 1125.0
+margin_top = 1395.0
+margin_right = 1411.0
+margin_bottom = 1805.0
 
-[node name="Slot14" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 1645.0
-margin_top = 1415.0
-margin_right = 1931.0
-margin_bottom = 1825.0
-texture = ExtResource( 5 )
+[node name="tamer_3" parent="Game/Card Handler/Zones/Card View/Player1/TamerArea1" instance=ExtResource( 20 )]
+margin_left = 1445.0
+margin_top = 1395.0
+margin_right = 1731.0
+margin_bottom = 1805.0
 
-[node name="Slot15" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 1965.0
-margin_top = 1415.0
-margin_right = 2251.0
-margin_bottom = 1825.0
-texture = ExtResource( 5 )
+[node name="tamer_4" parent="Game/Card Handler/Zones/Card View/Player1/TamerArea1" instance=ExtResource( 20 )]
+margin_left = 1765.0
+margin_top = 1395.0
+margin_right = 2051.0
+margin_bottom = 1805.0
 
-[node name="Slot16" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 2285.0
-margin_top = 1415.0
-margin_right = 2571.0
-margin_bottom = 1825.0
-texture = ExtResource( 5 )
+[node name="tamer_5" parent="Game/Card Handler/Zones/Card View/Player1/TamerArea1" instance=ExtResource( 20 )]
+margin_left = 2085.0
+margin_top = 1395.0
+margin_right = 2371.0
+margin_bottom = 1805.0
 
-[node name="Slot17" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 2605.0
-margin_top = 1415.0
-margin_right = 2891.0
-margin_bottom = 1825.0
-texture = ExtResource( 5 )
+[node name="tamer_6" parent="Game/Card Handler/Zones/Card View/Player1/TamerArea1" instance=ExtResource( 20 )]
+margin_left = 2405.0
+margin_top = 1395.0
+margin_right = 2691.0
+margin_bottom = 1805.0
 
-[node name="Slot18" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 2925.0
-margin_top = 1415.0
-margin_right = 3211.0
-margin_bottom = 1825.0
-texture = ExtResource( 5 )
+[node name="tamer_7" parent="Game/Card Handler/Zones/Card View/Player1/TamerArea1" instance=ExtResource( 20 )]
+margin_left = 2725.0
+margin_top = 1395.0
+margin_right = 3011.0
+margin_bottom = 1805.0
 
-[node name="Slot19" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 3245.0
-margin_top = 1415.0
-margin_right = 3531.0
-margin_bottom = 1825.0
-texture = ExtResource( 5 )
+[node name="tamer_8" parent="Game/Card Handler/Zones/Card View/Player1/TamerArea1" instance=ExtResource( 20 )]
+margin_left = 3045.0
+margin_top = 1395.0
+margin_right = 3331.0
+margin_bottom = 1805.0
 
-[node name="Slot20" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player1/BattleArea1"]
-margin_left = 3565.0
-margin_top = 1415.0
-margin_right = 3851.0
-margin_bottom = 1825.0
-texture = ExtResource( 5 )
+[node name="tamer_9" parent="Game/Card Handler/Zones/Card View/Player1/TamerArea1" instance=ExtResource( 20 )]
+margin_left = 3365.0
+margin_top = 1395.0
+margin_right = 3651.0
+margin_bottom = 1805.0
+
+[node name="tamer_10" parent="Game/Card Handler/Zones/Card View/Player1/TamerArea1" instance=ExtResource( 20 )]
+margin_left = 3685.0
+margin_top = 1395.0
+margin_right = 3971.0
+margin_bottom = 1805.0
 
 [node name="Player2" type="Control" parent="Game/Card Handler/Zones/Card View"]
 margin_right = 40.0
 margin_bottom = 40.0
 
-[node name="Baby Deck2" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2"]
-margin_left = 4205.0
+[node name="Baby Deck2" parent="Game/Card Handler/Zones/Card View/Player2" instance=ExtResource( 20 )]
+margin_left = 4185.0
 margin_top = -325.0
-margin_right = 4490.0
-margin_bottom = 73.0001
+margin_right = 4471.0
+margin_bottom = 85.0001
 texture = ExtResource( 1 )
 flip_v = true
 
-[node name="Trash2" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2"]
-margin_left = 5.0
-margin_top = -405.0
-margin_right = 290.0
-margin_bottom = -7.00006
+[node name="Security2" parent="Game/Card Handler/Zones/Card View/Player2" instance=ExtResource( 20 )]
+margin_left = 4185.0
+margin_top = 135.0
+margin_right = 4471.0
+margin_bottom = 545.0
 texture = ExtResource( 1 )
 flip_v = true
 
-[node name="Breeding Area2" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2"]
+[node name="Breeding Area2" parent="Game/Card Handler/Zones/Card View/Player2" instance=ExtResource( 20 )]
 margin_left = 3865.0
 margin_top = -325.0
-margin_right = 4150.0
-margin_bottom = 73.0001
-texture = ExtResource( 5 )
+margin_right = 4151.0
+margin_bottom = 85.0001
 flip_v = true
 
-[node name="Security2" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2"]
-margin_left = 4185.0
-margin_top = 335.0
-margin_right = 4470.0
-margin_bottom = 733.0
+[node name="Deck2" parent="Game/Card Handler/Zones/Card View/Player2" instance=ExtResource( 20 )]
+margin_left = 5.0
+margin_top = 55.0
+margin_right = 291.0
+margin_bottom = 465.0
 texture = ExtResource( 1 )
 flip_v = true
 
-[node name="Deck2" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2"]
+[node name="Trash2" parent="Game/Card Handler/Zones/Card View/Player2" instance=ExtResource( 20 )]
 margin_left = 5.0
-margin_top = 355.0
-margin_right = 290.0
-margin_bottom = 753.0
+margin_top = -405.0
+margin_right = 291.0
+margin_bottom = 5.00009
 texture = ExtResource( 1 )
 flip_v = true
 
@@ -392,149 +376,134 @@ flip_v = true
 margin_right = 40.0
 margin_bottom = 40.0
 
-[node name="EnemySlot1" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 685.0
-margin_top = 355.0
-margin_right = 971.0
-margin_bottom = 765.0
-texture = ExtResource( 5 )
+[node name="enemy_slot_1" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2" instance=ExtResource( 20 )]
+margin_left = 485.0
+margin_top = 395.0
+margin_right = 771.0
+margin_bottom = 805.0
 
-[node name="EnemySlot2" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 1005.0
-margin_top = 355.0
-margin_right = 1291.0
-margin_bottom = 765.0
-texture = ExtResource( 5 )
+[node name="enemy_slot_2" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2" instance=ExtResource( 20 )]
+margin_left = 805.0
+margin_top = 395.0
+margin_right = 1091.0
+margin_bottom = 805.0
 
-[node name="EnemySlot3" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 1325.0
-margin_top = 355.0
-margin_right = 1611.0
-margin_bottom = 765.0
-texture = ExtResource( 5 )
+[node name="enemy_slot_3" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2" instance=ExtResource( 20 )]
+margin_left = 1125.0
+margin_top = 395.0
+margin_right = 1411.0
+margin_bottom = 805.0
 
-[node name="EnemySlot4" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 1645.0
-margin_top = 355.0
-margin_right = 1931.0
-margin_bottom = 765.0
-texture = ExtResource( 5 )
+[node name="enemy_slot_4" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2" instance=ExtResource( 20 )]
+margin_left = 1445.0
+margin_top = 395.0
+margin_right = 1731.0
+margin_bottom = 805.0
 
-[node name="EnemySlot5" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 1965.0
-margin_top = 355.0
-margin_right = 2251.0
-margin_bottom = 765.0
-texture = ExtResource( 5 )
+[node name="enemy_slot_5" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2" instance=ExtResource( 20 )]
+margin_left = 1765.0
+margin_top = 395.0
+margin_right = 2051.0
+margin_bottom = 805.0
 
-[node name="EnemySlot6" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 2285.0
-margin_top = 355.0
-margin_right = 2571.0
-margin_bottom = 765.0
-texture = ExtResource( 5 )
+[node name="enemy_slot_6" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2" instance=ExtResource( 20 )]
+margin_left = 2085.0
+margin_top = 395.0
+margin_right = 2371.0
+margin_bottom = 805.0
 
-[node name="EnemySlot7" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 2605.0
-margin_top = 355.0
-margin_right = 2891.0
-margin_bottom = 765.0
-texture = ExtResource( 5 )
+[node name="enemy_slot_7" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2" instance=ExtResource( 20 )]
+margin_left = 2405.0
+margin_top = 395.0
+margin_right = 2691.0
+margin_bottom = 805.0
 
-[node name="EnemySlot8" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 2925.0
-margin_top = 355.0
-margin_right = 3211.0
-margin_bottom = 765.0
-texture = ExtResource( 5 )
+[node name="enemy_slot_8" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2" instance=ExtResource( 20 )]
+margin_left = 2725.0
+margin_top = 395.0
+margin_right = 3011.0
+margin_bottom = 805.0
 
-[node name="EnemySlot9" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 3245.0
-margin_top = 355.0
-margin_right = 3531.0
-margin_bottom = 765.0
-texture = ExtResource( 5 )
+[node name="enemy_slot_9" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2" instance=ExtResource( 20 )]
+margin_left = 3045.0
+margin_top = 395.0
+margin_right = 3331.0
+margin_bottom = 805.0
 
-[node name="EnemySlot10" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 3565.0
-margin_top = 355.0
-margin_right = 3851.0
-margin_bottom = 765.0
-texture = ExtResource( 5 )
+[node name="enemy_slot_10" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2" instance=ExtResource( 20 )]
+margin_left = 3365.0
+margin_top = 395.0
+margin_right = 3651.0
+margin_bottom = 805.0
 
-[node name="EnemySlot11" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 685.0
-margin_top = -125.0
-margin_right = 971.0
-margin_bottom = 285.0
-texture = ExtResource( 5 )
+[node name="TamerArea2" type="Control" parent="Game/Card Handler/Zones/Card View/Player2"]
+margin_right = 40.0
+margin_bottom = 40.0
 
-[node name="EnemySlot12" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 1005.0
-margin_top = -125.0
-margin_right = 1291.0
-margin_bottom = 285.0
-texture = ExtResource( 5 )
+[node name="enemy_tamer_1" parent="Game/Card Handler/Zones/Card View/Player2/TamerArea2" instance=ExtResource( 20 )]
+margin_left = 485.0
+margin_top = -85.0
+margin_right = 771.0
+margin_bottom = 325.0
 
-[node name="EnemySlot13" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 1325.0
-margin_top = -125.0
-margin_right = 1611.0
-margin_bottom = 285.0
-texture = ExtResource( 5 )
+[node name="enemy_tamer_2" parent="Game/Card Handler/Zones/Card View/Player2/TamerArea2" instance=ExtResource( 20 )]
+margin_left = 805.0
+margin_top = -85.0
+margin_right = 1091.0
+margin_bottom = 325.0
 
-[node name="EnemySlot14" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 1645.0
-margin_top = -125.0
-margin_right = 1931.0
-margin_bottom = 285.0
-texture = ExtResource( 5 )
+[node name="enemy_tamer_3" parent="Game/Card Handler/Zones/Card View/Player2/TamerArea2" instance=ExtResource( 20 )]
+margin_left = 1125.0
+margin_top = -85.0
+margin_right = 1411.0
+margin_bottom = 325.0
 
-[node name="EnemySlot15" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 1965.0
-margin_top = -125.0
-margin_right = 2251.0
-margin_bottom = 285.0
-texture = ExtResource( 5 )
+[node name="enemy_tamer_4" parent="Game/Card Handler/Zones/Card View/Player2/TamerArea2" instance=ExtResource( 20 )]
+margin_left = 1445.0
+margin_top = -85.0
+margin_right = 1731.0
+margin_bottom = 325.0
 
-[node name="EnemySlot16" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 2285.0
-margin_top = -125.0
-margin_right = 2571.0
-margin_bottom = 285.0
-texture = ExtResource( 5 )
+[node name="enemy_tamer_5" parent="Game/Card Handler/Zones/Card View/Player2/TamerArea2" instance=ExtResource( 20 )]
+margin_left = 1765.0
+margin_top = -85.0
+margin_right = 2051.0
+margin_bottom = 325.0
 
-[node name="EnemySlot17" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 2605.0
-margin_top = -125.0
-margin_right = 2891.0
-margin_bottom = 285.0
-texture = ExtResource( 5 )
+[node name="enemy_tamer_6" parent="Game/Card Handler/Zones/Card View/Player2/TamerArea2" instance=ExtResource( 20 )]
+margin_left = 2085.0
+margin_top = -85.0
+margin_right = 2371.0
+margin_bottom = 325.0
 
-[node name="EnemySlot18" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 2925.0
-margin_top = -125.0
-margin_right = 3211.0
-margin_bottom = 285.0
-texture = ExtResource( 5 )
+[node name="enemy_tamer_7" parent="Game/Card Handler/Zones/Card View/Player2/TamerArea2" instance=ExtResource( 20 )]
+margin_left = 2405.0
+margin_top = -85.0
+margin_right = 2691.0
+margin_bottom = 325.0
 
-[node name="EnemySlot19" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 3245.0
-margin_top = -125.0
-margin_right = 3531.0
-margin_bottom = 285.0
-texture = ExtResource( 5 )
+[node name="enemy_tamer_8" parent="Game/Card Handler/Zones/Card View/Player2/TamerArea2" instance=ExtResource( 20 )]
+margin_left = 2725.0
+margin_top = -85.0
+margin_right = 3011.0
+margin_bottom = 325.0
 
-[node name="EnemySlot20" type="TextureRect" parent="Game/Card Handler/Zones/Card View/Player2/BattleArea2"]
-margin_left = 3565.0
-margin_top = -125.0
-margin_right = 3851.0
-margin_bottom = 285.0
-texture = ExtResource( 5 )
+[node name="enemy_tamer_9" parent="Game/Card Handler/Zones/Card View/Player2/TamerArea2" instance=ExtResource( 20 )]
+margin_left = 3045.0
+margin_top = -85.0
+margin_right = 3331.0
+margin_bottom = 325.0
+
+[node name="enemy_tamer_10" parent="Game/Card Handler/Zones/Card View/Player2/TamerArea2" instance=ExtResource( 20 )]
+margin_left = 3365.0
+margin_top = -85.0
+margin_right = 3651.0
+margin_bottom = 325.0
 
 [node name="Pile" type="Control" parent="Game/Card Handler/Zones/Card View"]
 margin_right = 40.0
 margin_bottom = 40.0
+mouse_default_cursor_shape = 2
 
 [node name="UILayer" type="CanvasLayer" parent="."]
 script = ExtResource( 16 )
@@ -588,6 +557,7 @@ text = "<-"
 [connection signal="new_match" from="Game" to="UILayer" method="_on_Game_new_match"]
 [connection signal="phase_change" from="Game/Phase Manager" to="Game/Card Handler" method="_on_Phase_Manager_phase_change"]
 [connection signal="pressed" from="Game/Phase Manager/Game UI/UI Elements/End Turn" to="Game/Phase Manager" method="_on_End_Turn_pressed"]
+[connection signal="hatched_egg" from="Game/Card Handler" to="Game/Phase Manager" method="_on_Card_Handler_hatched_egg"]
 [connection signal="unsuspended_cards" from="Game/Card Handler" to="Game/Phase Manager" method="_on_Card_Handler_unsuspended_cards"]
 [connection signal="deck_loaded" from="Game/Card Handler/Zones/Deck Loader" to="Game/Card Handler/Zones/Card View" method="_on_Deck_Loader_deck_loaded"]
 [connection signal="draw_complete" from="Game/Card Handler/Zones/Card View" to="Game/Phase Manager" method="_on_Card_View_draw_complete"]

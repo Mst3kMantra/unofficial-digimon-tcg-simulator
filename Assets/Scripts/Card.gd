@@ -55,17 +55,18 @@ enum Zones {
 var order_of_play
 var owner_index
 var zone = Zones.DECK
-
+var is_menu_hidden = true
 
 func _on_play_pressed():
 	emit_signal("played", name)
 
 func show_popup_menu(mouse_pos):
 	menu.popup(Rect2(mouse_pos.x, mouse_pos.y, menu.rect_size.x, menu.rect_size.y))
-
+	is_menu_hidden = false
+	
 func add_menu_items():
-	if menu.get_item_count() != null || 0:
-		menu.clear()
+	if is_menu_hidden == false:
+		return
 	if self.zone == Zones.HAND:
 		menu.add_item("Play", 0)
 		if type == "Digimon":
@@ -80,7 +81,8 @@ func add_menu_items():
 
 func _on_PopupMenu_popup_hide():
 	menu.clear()
-
+	is_menu_hidden = true
 
 func _on_PopupMenu_id_pressed(id):
+	print(self.card_name)
 	emit_signal("card_action_selected", id, self)

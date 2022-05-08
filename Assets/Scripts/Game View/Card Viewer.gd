@@ -19,6 +19,50 @@ var breeding_cards = []
 var enemy_breeding = []
 var security_cards = []
 var enemy_security = []
+var slot_1 = []
+var slot_2 = []
+var slot_3 = []
+var slot_4 = []
+var slot_5 = []
+var slot_6 = []
+var slot_7 = []
+var slot_8 = []
+var slot_9 = []
+var slot_10 = []
+var tamer_1 = []
+var tamer_2 = []
+var tamer_3 = []
+var tamer_4 = []
+var tamer_5 = []
+var tamer_6 = []
+var tamer_7 = []
+var tamer_8 = []
+var tamer_9 = []
+var tamer_10 = []
+var battle_area = [slot_1, slot_2, slot_3, slot_4, slot_5, slot_6, slot_7, slot_8, slot_9, slot_10,
+ tamer_1, tamer_2, tamer_3, tamer_4, tamer_5, tamer_6, tamer_7, tamer_8, tamer_9, tamer_10]
+var enemy_slot_1 = []
+var enemy_slot_2 = []
+var enemy_slot_3 = []
+var enemy_slot_4 = []
+var enemy_slot_5 = []
+var enemy_slot_6 = []
+var enemy_slot_7 = []
+var enemy_slot_8 = []
+var enemy_slot_9 = []
+var enemy_slot_10 = []
+var enemy_tamer_1 = []
+var enemy_tamer_2 = []
+var enemy_tamer_3 = []
+var enemy_tamer_4 = []
+var enemy_tamer_5 = []
+var enemy_tamer_6 = []
+var enemy_tamer_7 = []
+var enemy_tamer_8 = []
+var enemy_tamer_9 = []
+var enemy_tamer_10 = []
+var enemy_battle_area = [enemy_slot_1, enemy_slot_2, enemy_slot_3, enemy_slot_4, enemy_slot_5, enemy_slot_6, enemy_slot_7, enemy_slot_8, enemy_slot_9, enemy_slot_10
+, enemy_tamer_1, enemy_tamer_2, enemy_tamer_3, enemy_tamer_4, enemy_tamer_5, enemy_tamer_6, enemy_tamer_7, enemy_tamer_8, enemy_tamer_9, enemy_tamer_10]
 #card metadata
 var card_art_string_format = "res://Resources/Sprites/%s.jpg"
 var start_pos = []
@@ -39,6 +83,7 @@ var enemy_card_name_index = 0
 #seed
 var random_number
 
+#pos
 onready var center_hand = get_viewport_rect().size/2 + Vector2(card_offset.x/1.5 + 1200,0) + Vector2(0,card_offset.y * 1.5)
 onready var enemy_center_hand = get_viewport_rect().size/2 + Vector2(enemy_card_offset.x/1.5 + 1200,0) - Vector2(0,enemy_card_offset.y * 1.5)
 onready var mouse_check = false
@@ -47,82 +92,110 @@ var card_offset = Vector2(300,800)
 var enemy_card_offset = Vector2(0,800)
 var card_margin = card_offset.x/1.1
 
+#card actions
+var playing_card = false
+var current_card
 # Called when the node enters the scene tree for the first time.
 func _ready():
 # warning-ignore:return_value_discarded
 	self.connect("card_changed", self, "_on_card_change")
 
+var result
 
+#polling function to check targets
 func _physics_process(delta):
 	var space_state = get_world_2d().direct_space_state
 	var mouse_position = get_viewport().get_mouse_position()
-	var result = space_state.intersect_ray(mouse_position, mouse_position, [], 2147483647, true, true)
-	if Input.is_action_just_pressed("click") & result["collider"].get_parent().has_method("show_popup_menu"):
-		var selected_card = result["collider"].get_parent()
-		var last_mouse_pos = get_global_mouse_position()
-		selected_card.show_popup_menu(last_mouse_pos)
-	var count = hand_cards.size()
-	if phases.phase == 8 || phases.phase == 7 || hand_cards.empty() || setup_is_done == false:
-		return
-	if result.size() == 0 && hand_cards.empty() == false && start_pos.empty() == false && start_pos_y.empty() == false:
-		emit_signal("card_changed")
-	if result.size() != 0 && mouse_position.y > 780 && mouse_position.y < 1300:
-		if card_check != result["collider"].get_parent():
+	result = space_state.intersect_ray(mouse_position, mouse_position, [], 2147483647, true, true)
+	if result.has("collider") && setup_is_done == true:
+		if Input.is_action_just_pressed("click") && result.size() != 0 && result["collider"].get_parent().has_method("show_popup_menu") && result["collider"].get_parent().owner_index == 1 && playing_card == false:
+			var selected_card = result["collider"].get_parent()
+			var last_mouse_pos = get_global_mouse_position()
+			if selected_card.is_menu_hidden == true && playing_card == false:
+				selected_card.add_menu_items()
+				selected_card.show_popup_menu(last_mouse_pos)
+		if Input.is_action_pressed("click") && result.size() != 0 && "slot" in result["collider"].get_parent().name || "tamer" in result["collider"].get_parent().name && !"enemy" in result["collider"].get_parent().name:
+			if playing_card:
+				var selected_zone = result["collider"].get_parent()
+				var current_card_index = hand_cards.find(current_card)
+				if phases.phase == phases.MAIN_PHASE:
+					for f in range(1,10):
+						str(f)
+						if selected_zone.name == "slot_%s" % f && current_card.type != "Tamer":
+							battle_area[f - 1].append(hand_cards.pop_at(current_card_index))
+							play_card(selected_zone)
+						if selected_zone.name == "tamer_%s" % f && current_card.type == "Tamer":
+							battle_area[f - 1 + 10].append(hand_cards.pop_at(current_card_index))
+							play_card(selected_zone)
+					playing_card = false
+		var count = hand_cards.size()
+		if phases.phase == 8 || phases.phase == 7 || hand_cards.empty() || setup_is_done == false:
+			return
+		if result.size() == 0 && hand_cards.empty() == false && start_pos.empty() == false && start_pos_y.empty() == false:
 			emit_signal("card_changed")
-		card_check = result["collider"].get_parent()
-		var card_index = hand_cards.find(card_check)
-		var tween_hover = card_check.get_node("Hover")
-		var tween_draw = card_check.get_node("Draw")
-		var tween_move_left = card_check.get_node("Move Left")
-		var tween_move_right = card_check.get_node("Move Right")
-		var tween_move_back = card_check.get_node("Move Back")
-		var area = card_check.get_node("Area2D")
-		if tween_draw.is_active() == true:
-			pass
-		if tween_move_left.is_active() == true:
-			pass
-		if tween_move_right.is_active() == true:
-			pass
-		#make loop to check if each card has returned to start position before moving them
-		#try getting mouse position vs on mouse enter
-		else:
-			if count > 1:
-				for j in count:
-					if start_pos.size() != hand_cards.size():
-						break
-					if tween_move_left.is_active() || tween_move_right.is_active():
-						tween_move_left.reset_all()
-						tween_move_right.reset_all()
-					if tween_move_back.is_active():
-						break
-					var neighbor_card = hand_cards[j]
-					if neighbor_card != card_check && j < card_index:
-						tween_move_left.interpolate_property(
-							neighbor_card, "rect_position",
-							neighbor_card.rect_position, Vector2(shifted_pos_left[j], center_hand.y),
-							0.2 * delta, Tween.TRANS_QUINT)
-						tween_move_left.start()
-					if neighbor_card != card_check && j > card_index:
-						tween_move_right.interpolate_property(
-							neighbor_card, "rect_position",
-							neighbor_card.rect_position, Vector2(shifted_pos_right[j], center_hand.y),
-							0.2 * delta, Tween.TRANS_QUINT)
-						tween_move_right.start()
-			if tween_draw.is_active():
-				return
-			tween_hover.interpolate_property(
-				card_check, "rect_scale", 
-				card_check.rect_scale, Vector2(1.5,1.5), 0.1 * delta, 
-				Tween.TRANS_QUINT, Tween.EASE_IN_OUT)
-			tween_hover.interpolate_property(
-				area, "scale", 
-				area.scale, Vector2(1.5,1.5), 0.1 * delta, 
-				Tween.TRANS_QUINT, Tween.EASE_IN_OUT)
-			tween_hover.interpolate_property(
-				card_check, "rect_position", 
-				card_check.rect_position, Vector2(card_check.rect_position.x, center_hand.y * 0.8), 0.1 * delta, 
-				Tween.TRANS_QUINT, Tween.EASE_IN_OUT)
-			tween_hover.start()
+		if result.size() != 0 && mouse_position.y > 780 && mouse_position.y < 1300 && result["collider"].get_parent().get_parent().name == "Pile":
+			if card_check != result["collider"].get_parent():
+				emit_signal("card_changed")
+			card_check = result["collider"].get_parent()
+			var card_index = hand_cards.find(card_check)
+			var tween_hover = card_check.get_node("Hover")
+			var tween_draw = card_check.get_node("Draw")
+			var tween_move_left = card_check.get_node("Move Left")
+			var tween_move_right = card_check.get_node("Move Right")
+			var tween_move_back = card_check.get_node("Move Back")
+			var area = card_check.get_node("Area2D")
+			if tween_draw.is_active() == true:
+				pass
+			if tween_move_left.is_active() == true:
+				pass
+			if tween_move_right.is_active() == true:
+				pass
+			#make loop to check if each card has returned to start position before moving them
+			#try getting mouse position vs on mouse enter
+			else:
+				if count > 1:
+					for j in count:
+						if start_pos.size() != hand_cards.size():
+							break
+						if tween_move_left.is_active() || tween_move_right.is_active():
+							tween_move_left.reset_all()
+							tween_move_right.reset_all()
+						if tween_move_back.is_active():
+							break
+						var neighbor_card = hand_cards[j]
+						if neighbor_card != card_check && j < card_index:
+							tween_move_left.interpolate_property(
+								neighbor_card, "rect_position",
+								neighbor_card.rect_position, Vector2(shifted_pos_left[j], center_hand.y),
+								0.2 * delta, Tween.TRANS_QUINT)
+							tween_move_left.start()
+						if neighbor_card != card_check && j > card_index:
+							tween_move_right.interpolate_property(
+								neighbor_card, "rect_position",
+								neighbor_card.rect_position, Vector2(shifted_pos_right[j], center_hand.y),
+								0.2 * delta, Tween.TRANS_QUINT)
+							tween_move_right.start()
+				if tween_draw.is_active():
+					return
+				tween_hover.interpolate_property(
+					card_check, "rect_scale", 
+					card_check.rect_scale, Vector2(1.5,1.5), 0.1 * delta, 
+					Tween.TRANS_QUINT, Tween.EASE_IN_OUT)
+				tween_hover.interpolate_property(
+					area, "scale", 
+					area.scale, Vector2(1.5,1.5), 0.1 * delta, 
+					Tween.TRANS_QUINT, Tween.EASE_IN_OUT)
+				tween_hover.interpolate_property(
+					card_check, "rect_position", 
+					card_check.rect_position, Vector2(card_check.rect_position.x, center_hand.y * 0.8), 0.1 * delta, 
+					Tween.TRANS_QUINT, Tween.EASE_IN_OUT)
+				tween_hover.start()
+
+func _on_card_action_selected(id, calling_card):
+	current_card = calling_card
+	if id == 0:
+		playing_card = true
+		print("play card")
 
 func get_seed():
 	random_number = randi()
@@ -153,7 +226,7 @@ func setup_deck():
 	while j < (enemy_cards.size()):
 		var type = enemy_cards[j].type
 		if type == "Digi-Egg" || enemy_cards[j].stage == "In-Training" || enemy_cards[j].level == 2:
-			enemy_cards[j].zone = enemy_cards[j].ZONES.BABYDECK
+			enemy_cards[j].zone = enemy_cards[j].Zones.BABYDECK
 			enemy_baby.append(enemy_cards.pop_at(j))
 			j = 0
 		j += 1
@@ -161,16 +234,16 @@ func setup_deck():
 	while i < (deck_cards.size()):
 		var type = deck_cards[i].type
 		if type == "Digi-Egg" || deck_cards[i].stage == "In-Training" || deck_cards[i].level == 2:
-			deck_cards[i].zone = deck_cards[i].ZONES.BABYDECK
+			deck_cards[i].zone = deck_cards[i].Zones.BABYDECK
 			baby_deck.append(deck_cards.pop_at(i))
 			i = 0
 		i += 1
 	for k in (5):
 		var security_set = deck_cards.back()
 		var enemy_security_set = enemy_cards.back()
-		security_set.zone = security_set.ZONES.SECURITY
+		security_set.zone = security_set.Zones.SECURITY
 		security_cards.append(deck_cards.pop_back())
-		enemy_security_set.zone = enemy_security_set.ZONES.SECURITY
+		enemy_security_set.zone = enemy_security_set.Zones.SECURITY
 		enemy_security.append(enemy_cards.pop_back())
 	if get_tree().get_network_unique_id() == 1:
 		rpc("_setup_done")
@@ -222,7 +295,25 @@ func _on_card_change():
 				card.rect_position, Vector2(start_pos[j], start_pos_y[j]),
 				.1, Tween.TRANS_QUINT)
 			tween_move_back.start()
-	
+
+func play_card(zone):
+	var tween_play = current_card.get_node("PlayCard")
+	var cards_in_hand = hand_cards.size()
+	var center_of_cards = (hand_cards.size() * card_margin - current_card.rect_size.x)/1.5
+	for i in cards_in_hand:
+		var card = hand_cards[i]
+		tween_play.interpolate_property(
+			card, "rect_position", 
+			card.rect_position, Vector2(center_hand.x - center_of_cards + i * card_margin, center_hand.y), 
+			0.5, Tween.TRANS_QUINT, Tween.EASE_OUT)
+			
+		tween_play.interpolate_property(
+		current_card, "rect_position", 
+		current_card.rect_position, Vector2(zone.rect_position.x, zone.rect_position.y), 
+		0.5, Tween.TRANS_QUINT, Tween.EASE_OUT)
+	tween_play.start()
+	yield(tween_play, "tween_all_completed")
+	get_start_pos()
 
 func _on_Card_Handler_drawn_card():
 	var deck_position = deck_zone.rect_position
