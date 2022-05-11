@@ -114,20 +114,6 @@ func _physics_process(delta):
 			if selected_card.is_menu_hidden == true && playing_card == false:
 				selected_card.add_menu_items()
 				selected_card.show_popup_menu(last_mouse_pos)
-		if Input.is_action_pressed("click") && result.size() != 0 && "slot" in result["collider"].get_parent().name || "tamer" in result["collider"].get_parent().name && !"enemy" in result["collider"].get_parent().name:
-			if playing_card:
-				var selected_zone = result["collider"].get_parent()
-				var current_card_index = hand_cards.find(current_card)
-				if phases.phase == phases.MAIN_PHASE:
-					for f in range(1,10):
-						str(f)
-						if selected_zone.name == "slot_%s" % f && current_card.type != "Tamer":
-							battle_area[f - 1].append(hand_cards.pop_at(current_card_index))
-							play_card(selected_zone)
-						if selected_zone.name == "tamer_%s" % f && current_card.type == "Tamer":
-							battle_area[f - 1 + 10].append(hand_cards.pop_at(current_card_index))
-							play_card(selected_zone)
-					playing_card = false
 		var count = hand_cards.size()
 		if phases.phase == 8 || phases.phase == 7 || hand_cards.empty() || setup_is_done == false:
 			return
@@ -190,6 +176,24 @@ func _physics_process(delta):
 					card_check.rect_position, Vector2(card_check.rect_position.x, center_hand.y * 0.8), 0.1 * delta, 
 					Tween.TRANS_QUINT, Tween.EASE_IN_OUT)
 				tween_hover.start()
+
+func _input(event):
+	if event.is_action_pressed("click"):
+		if playing_card && result.has("collider") && setup_is_done:
+			var selected_zone = result["collider"].get_parent()
+			var current_card_index = hand_cards.find(current_card)
+			if phases.phase == phases.MAIN_PHASE:
+				for f in range(1,10):
+					if selected_zone.name == "slot_%s" % str(f) && current_card.type != "Tamer":
+						hand_cards[current_card_index].zone = current_card.Zones.BATTLEAREA
+						battle_area[f - 1].append(hand_cards.pop_at(current_card_index))
+						play_card(selected_zone)
+					if selected_zone.name == "tamer_%s" % str(f) && current_card.type == "Tamer":
+						hand_cards[current_card_index].zone = current_card.Zones.BATTLEAREA
+						battle_area[f - 1 + 10].append(hand_cards.pop_at(current_card_index))
+						play_card(selected_zone)
+				print(current_card)
+				playing_card = false
 
 func _on_card_action_selected(id, calling_card):
 	current_card = calling_card
@@ -306,11 +310,17 @@ func play_card(zone):
 			card, "rect_position", 
 			card.rect_position, Vector2(center_hand.x - center_of_cards + i * card_margin, center_hand.y), 
 			0.5, Tween.TRANS_QUINT, Tween.EASE_OUT)
-			
-		tween_play.interpolate_property(
-		current_card, "rect_position", 
-		current_card.rect_position, Vector2(zone.rect_position.x, zone.rect_position.y), 
-		0.5, Tween.TRANS_QUINT, Tween.EASE_OUT)
+	
+	tween_play.interpolate_property(
+		current_card, "rect_size",
+		current_card.rect_size, Vector2(zone.rect_size.x, zone.rect_size.y),
+		0.5, Tween.TRANS_QUINT, Tween.EASE_OUT
+	)
+	
+	tween_play.interpolate_property(
+	current_card, "rect_position", 
+	current_card.rect_position, Vector2(zone.rect_position.x, zone.rect_position.y), 
+	0.5, Tween.TRANS_QUINT, Tween.EASE_OUT)
 	tween_play.start()
 	yield(tween_play, "tween_all_completed")
 	get_start_pos()

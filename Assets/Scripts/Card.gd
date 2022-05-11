@@ -75,6 +75,8 @@ func add_menu_items():
 			menu.add_item("Activate Effect", 2)
 	if self.zone == Zones.BATTLEAREA:
 		menu.add_item("Activate Effect", 2)
+		if self.type == "Digimon":
+			menu.add_item("Attack", 4)
 	if self.zone == Zones.BREEDING && type == "digimon" && stage != "In-Training" && level > 2:
 		menu.add_item("Move to Battle Area", 3)
 
