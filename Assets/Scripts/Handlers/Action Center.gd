@@ -55,6 +55,7 @@ remote func _enemy_draw(amount):
 remote func _draw(amount):
 	for n in amount:
 		var drawn_card = card_view.deck_cards.back()
+		drawn_card.connect("card_action_selected", card_view, "_on_card_action_selected")
 		card_view.deck_cards.pop_back()
 		drawn_card.zone = drawn_card.Zones.HAND
 		card_view.hand_cards.append(drawn_card)
@@ -87,8 +88,9 @@ func _on_Phase_Manager_phase_change():
 		phases.BREEDING_PHASE:
 			if card_view.breeding_cards.empty():
 				hatch_egg()
+		phases.END_PHASE:
+			unsuspend_all()
 		phases.DRAW_PHASE:
-			print(phases.current_player)
 			if player_id == 1:
 				if phases.current_player == player_id:
 					draw_card(1)
@@ -98,5 +100,3 @@ func _on_Phase_Manager_phase_change():
 					enemy_draw_card(1)
 					rpc_id(2, "_draw", 1)
 
-func play_card():
-	pass

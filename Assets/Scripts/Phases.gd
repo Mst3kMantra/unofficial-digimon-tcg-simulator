@@ -31,6 +31,7 @@ var turn_counter = 1
 var turn_counter_string_ph = "Turn%s"
 var turn_counter_string = turn_counter_string_ph % turn_counter
 var memory
+var first_player
 
 func next_phase():
 	match phase:
@@ -54,12 +55,8 @@ func next_phase():
 			phase_display.text = "Main Phase"
 			emit_signal("phase_change")
 		MAIN_PHASE:
-			if current_player == 1:
-				current_player = 2
-			elif current_player == 2:
-				current_player = 1
-			phase = UNSUSPEND_PHASE
-			phase_display.text = "Unsuspend Phase"
+			phase = END_PHASE
+			phase_display.text = "End Phase"
 			turn_counter += 1
 			emit_signal("phase_change")
 		END_PHASE:
@@ -70,6 +67,7 @@ func next_phase():
 			phase = UNSUSPEND_PHASE
 			phase_display.text = "Unsuspend Phase"
 			emit_signal("phase_change")
+	print(phase)
 
 
 
@@ -87,22 +85,17 @@ func _on_Card_Handler_unsuspended_cards():
 			rpc_id(1, "_client_end_phase")
 
 func _on_Card_View_setup_done():
-	if player_id == current_player:
-		if player_id == 1:
-			rpc("_remote_phase_change")
-		else:
-			rpc_id(1, "_client_end_phase")
-
-
-func _on_Game_first_player(first_player):
 	current_player = first_player
-
-func _on_Card_View_first_turn_draws_done():
 	if player_id == current_player:
 		if player_id == 1:
 			rpc("_remote_phase_change")
 		else:
 			rpc_id(1, "_client_end_phase")
+
+
+func _on_Game_first_player(player):
+	current_player = player
+	first_player = player
 
 func _on_Card_View_draw_complete():
 	if phase == FIRST_TURN_PHASE || phase == DRAW_PHASE && player_id == current_player:
@@ -112,13 +105,12 @@ func _on_Card_View_draw_complete():
 			rpc_id(1, "_client_end_phase")
 
 func _on_End_Turn_pressed():
-	if player_id == current_player && phase == BREEDING_PHASE || phase == MAIN_PHASE:
-		if player_id == 1:
-			rpc("_remote_phase_change")
-		else:
-			rpc_id(1, "_client_end_phase")
-	else:
-		return
+	if player_id == current_player:
+		if phase == BREEDING_PHASE || phase == MAIN_PHASE:
+			if player_id == 1:
+				rpc("_remote_phase_change")
+			else:
+				rpc_id(1, "_client_end_phase")
 
 remote func _client_end_phase():
 	rpc("_remote_phase_change")

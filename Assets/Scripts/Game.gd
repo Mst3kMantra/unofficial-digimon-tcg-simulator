@@ -46,12 +46,10 @@ remotesync func _match_start(players: Dictionary) -> void:
 		other_player.set_network_master(peer_id)
 		
 		player_index += 1
-		print(other_player.name)
 	
 	if GameState.online_play:
 		var my_id = get_tree().get_network_unique_id()
 		var my_player = players_node.get_node(str(my_id))
-		print(my_player)
 		rpc("_finished_game_setup")
 		
 remotesync func _finished_game_setup() -> void:
